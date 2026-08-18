@@ -111,3 +111,47 @@ app.post('/api/admin/validate-withdraw', async (req, res) => {
         res.status(500).json({ error: "Erreur lors de la validation" });
     }
 });
+// Route d'inscription
+app.post('/api/register', async (req, res) => {
+    const { nom, email, password } = req.body;
+    try {
+        const query = `INSERT INTO users (nom, email, password) VALUES ($1, $2, $3) RETURNING id, nom, email`;
+        const result = await pool.query(query, [nom, email, password]);
+        res.json({ message: "Inscription réussie", user: result.rows[0] });
+    } catch (err) {
+        res.status(400).json({ error: "Cet email est déjà utilisé ou erreur de saisie" });
+    }
+});
+
+// Route pour récupérer les transactions d'un utilisateur spécifique
+app.get('/api/user-transactions/:user_id', async (req, res) => {
+    const { user_id } = req.params;
+    try {
+        const query = `SELECT * FROM transactions WHERE user_id = $1 ORDER BY id DESC`;
+        const result = await pool.query(query, [user_id]);
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).json({ error: "Erreur lors de la récupération des transactions" });
+    }
+});
+
+// Route admin pour lister tous les utilisateurs
+app.get('/api/admin/users', async (req, res) => {
+    try {
+        const result = await pool.query(`SELECT id, nom, email, is_banned, created_at FROM users ORDER BY id DESC`);
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).json({ error: "Erreur" });
+    }
+});
+
+// Route admin pour bannir un utilisateur
+app.post('/api/admin/ban-user', async (req, res) => {
+    const { user_id } = req.body;
+    try {
+        await pool.query(`UPDATE users SET is_banned = TRUE WHERE id = $1`, [user_id]);
+        res.json({ message: "Utilisateur banni avec succès" });
+    } catch (err) {
+        res.status(500).json({ error: "Erreur lors du bannissement" });
+    }
+});

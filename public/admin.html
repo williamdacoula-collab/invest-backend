@@ -1,31 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Administration - Sécurité & Gestion</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f7f6; padding: 20px; }
+        h1, h2 { color: #333; }
+        table { width: 100%; border-collapse: collapse; background: white; margin-bottom: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #007bff; color: white; }
+        tr:hover { background-color: #f1f1f1; }
+        button { background: #28a745; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+        button.btn-danger { background: #dc3545; }
+        button.btn-danger:hover { background: #c82333; }
+        button:hover { background: #218838; }
+        .no-data { text-align: center; color: #777; padding: 20px; }
+    </style>
+</head>
 <body>
-    <h1>Administration - Retraits en attente</h1>
+    <h1>Panneau d'Administration</h1>
+
+    <h2>Retraits en attente</h2>
     <table>
-        <thead><tr><th>ID</th><th>User</th><th>Montant</th><th>Action</th></tr></thead>
-        <tbody id="withdraw-table"></tbody>
+        <thead>
+            <tr><th>ID</th><th>User ID</th><th>Montant</th><th>Action</th></tr>
+        </thead>
+        <tbody id="withdraw-table">
+            <tr><td colspan="4" class="no-data">Chargement...</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Liste des Utilisateurs & Sécurité (Anti-Arnaque)</h2>
+    <table>
+        <thead>
+            <tr><th>ID</th><th>Nom</th><th>Email</th><th>Statut</th><th>Action</th></tr>
+        </thead>
+        <tbody id="users-table">
+            <tr><td colspan="5" class="no-data">Chargement...</td></tr>
+        </tbody>
     </table>
 
     <script>
+        // Charger les retraits
         fetch('/api/transactions?type=RETRAIT&status=EN_ATTENTE')
             .then(res => res.json())
             .then(data => {
                 const tbody = document.getElementById('withdraw-table');
+                tbody.innerHTML = data.length === 0 ? '<tr><td colspan="4" class="no-data">Aucun retrait en attente.</td></tr>' : '';
                 data.forEach(t => {
-                    tbody.innerHTML += `<tr>
-                        <td>${t.id}</td><td>${t.user_id}</td><td>${t.amount}</td>
-                        <td><button onclick="valider(${t.id})">Valider</button></td>
-                    </tr>`;
+                    tbody.innerHTML += `<tr><td>${t.id}</td><td>${t.user_id}</td><td><strong>${t.amount} FCFA</strong></td><td><button onclick="validerRetrait(${t.id})">Valider</button></td></tr>`;
                 });
             });
 
-        function valider(id) {
-            fetch('/api/admin/validate-withdraw', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ transaction_id: id })
-            }).then(() => location.reload());
+        // Charger les utilisateurs
+        fetch('/api/admin/users')
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById('users-table');
+                tbody.innerHTML = data.length === 0 ? '<tr><td colspan="5" class="no-data">Aucun utilisateur.</td></tr>' : '';
+                data.forEach(u => {
+                    let statut = u.is_banned ? '<span style="color:red; font-weight:bold;">Banni</span>' : '<actif style="color:green;">Actif</actif>';
+                    let actionBtn = u.is_banned ? '<span>Déjà banni</span>' : `<button class="btn-danger" onclick="bannirUser(${u.id})">Bannir</button>`;
+                    tbody.innerHTML += `<tr><td>${u.id}</td><td>${u.nom}</td><td>${u.email}</td><td>${statut}</td><td>${actionBtn}</td></tr>`;
+                });
+            });
+
+        function validerRetrait(id) {
+            if(confirm("Valider ce retrait ?")) {
+                fetch('/api/admin/validate-withdraw', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ transaction_id: id })
+                }).then(() => { alert("Validé !"); location.reload(); });
+            }
+        }
+
+        function bannirUser(id) {
+            if(confirm("Voulez-vous vraiment bannir cet utilisateur suspect/arnaqueur ?")) {
+                fetch('/api/admin/ban-user', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ user_id: id })
+                }).then(() => { alert("Utilisateur banni avec succès !"); location.reload(); });
+            }
         }
     </script>
 </body>
