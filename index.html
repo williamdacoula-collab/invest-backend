@@ -128,7 +128,7 @@
 
     <section class="card">
         <h3>Recharger le solde (Dépôt)</h3>
-        <input type="number" id="montant-depot" placeholder="Montant en FCFA (min 50)" style="padding: 10px; margin-top: 10px; width: 100%; box-sizing: border-box; border: 1px solid #d0d5dd; border-radius: 8px;">
+        <input type="number" id="montant-depot" placeholder="Montant en FCFA (min 100)" style="padding: 10px; margin-top: 10px; width: 100%; box-sizing: border-box; border: 1px solid #d0d5dd; border-radius: 8px;">
         <button type="button" id="depot-btn" style="margin-top: 10px; background: #12b76a;">Déposer</button>
     </section>
 
@@ -184,35 +184,37 @@
 
 <script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
 <script>
-    // Gestion du dépôt avec FedaPay
+    function lancerPaiement(montant, description) {
+        if (!montant || montant <= 0) {
+            alert("Veuillez entrer un montant valide.");
+            return;
+        }
+        try {
+            let widget = FedaPay.init({
+                public_key: 'pk_sandbox_v1_account_not_found_fix', 
+                transaction: { amount: montant, description: description },
+                customer: { email: 'client@investci.com', first_name: 'Client', last_name: 'Invest' }
+            });
+            widget.open();
+        } catch (err) {
+            alert("Erreur d'ouverture du module de paiement : " + err.message);
+        }
+    }
+
     document.getElementById('depot-btn').addEventListener('click', function(e) {
         e.preventDefault();
         const montant = parseInt(document.getElementById('montant-depot').value, 10);
-        if (!montant || montant < 50) {
-            alert("Le montant minimum de dépôt est de 50 FCFA.");
-            return;
-        }
-        let widget = FedaPay.init({
-            public_key: 'pk_live_x00H8aT0wJfax7jLeLzJtQly',
-            transaction: { amount: montant, description: 'Dépôt solde' }
-        });
-        widget.open();
+        lancerPaiement(montant, 'Recharge solde InvestCI');
     });
 
-    // Gestion des boutons Investir avec FedaPay
     document.querySelectorAll('.invest-btn').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             const montant = parseInt(this.getAttribute('data-amount'), 10);
-            let widget = FedaPay.init({
-                public_key: 'pk_live_x00H8aT0wJfax7jLeLzJtQly',
-                transaction: { amount: montant, description: 'Investissement plan' }
-            });
-            widget.open();
+            lancerPaiement(montant, 'Investissement Plan InvestCI');
         });
     });
 
-    // Gestion du retrait
     document.getElementById('retrait-btn').addEventListener('click', function(e) {
         e.preventDefault();
         const montant = parseInt(document.getElementById('retrait-montant').value, 10);
@@ -220,7 +222,7 @@
             alert("Le montant minimum de retrait est de 500 FCFA.");
             return;
         }
-        alert("Demande de retrait de " + montant + " FCFA prise en compte avec succès !");
+        alert("Demande de retrait de " + montant + " FCFA enregistrée avec succès !");
     });
 </script>
 
