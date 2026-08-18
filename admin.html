@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - InvestCI</title>
+    <style>
+        body { font-family: sans-serif; background: #f1f5f9; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; }
+        .card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px; border: 1px solid #e2e8f0; text-align: left; }
+        th { background: #f8fafc; }
+        .btn { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; color: white; font-size: 12px; }
+        .valider { background: #10b981; }
+        .bannir { background: #ef4444; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Interface Administrateur</h1>
+
+    <!-- Gestion des Retraits -->
+    <div class="card">
+        <h2>Demandes de Retraits</h2>
+        <table>
+            <tr><th>Utilisateur (Email)</th><th>Montant</th><th>Numéro</th><th>Action</th></tr>
+            <tr>
+                <td>test@user.com</td>
+                <td>5 000 FCFA</td>
+                <td>0700000000</td>
+                <td>
+                    <button class="btn valider" onclick="alert('Retrait validé')">Valider</button>
+                    <button class="btn bannir" onclick="alert('Retrait rejeté')">Rejeter</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Gestion des Utilisateurs -->
+    <div class="card">
+        <h2>Liste des Utilisateurs</h2>
+        <table>
+            <tr><th>Email</th><th>Mot de passe</th><th>Action</th></tr>
+            <tr>
+                <td>william@gmail.com</td>
+                <td>secret123</td>
+                <td><button class="btn bannir" onclick="alert('Compte banni')">Bannir</button></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
