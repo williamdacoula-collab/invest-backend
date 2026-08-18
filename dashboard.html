@@ -1,0 +1,32 @@
+<div style="margin-top: 20px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <h3>Effectuer un Retrait</h3>
+    <input type="number" id="withdraw-amount" placeholder="Montant en FCFA" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;">
+    <button onclick="demanderRetrait()" style="background: #dc3545; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; width: 100%;">Demander un retrait</button>
+</div>
+
+<script>
+    function demanderRetrait() {
+        const amount = document.getElementById('withdraw-amount').value;
+        // Supposons que tu stockes l'ID de l'utilisateur connecté dans localStorage lors de sa connexion
+        const userId = localStorage.getItem('user_id') || 1; 
+
+        if (!amount || amount <= 0) {
+            alert("Veuillez entrer un montant valide.");
+            return;
+        }
+
+        fetch('/api/withdraw', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_id: userId, amount: amount })
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert("Demande de retrait envoyée avec succès ! Elle est en attente de validation.");
+            document.getElementById('withdraw-amount').value = '';
+        })
+        .catch(err => {
+            alert("Erreur lors de la demande de retrait.");
+        });
+    }
+</script>

@@ -155,3 +155,13 @@ app.post('/api/admin/ban-user', async (req, res) => {
         res.status(500).json({ error: "Erreur lors du bannissement" });
     }
 });
+app.post('/api/withdraw', async (req, res) => {
+    const { user_id, amount } = req.body;
+    try {
+        const query = `INSERT INTO transactions (user_id, type, amount, status) VALUES ($1, 'RETRAIT', $2, 'EN_ATTENTE') RETURNING *`;
+        const result = await pool.query(query, [user_id, amount]);
+        res.json({ message: "Demande de retrait enregistrée", transaction: result.rows[0] });
+    } catch (err) {
+        res.status(500).json({ error: "Erreur serveur lors du retrait" });
+    }
+});
