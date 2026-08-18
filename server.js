@@ -56,3 +56,47 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);
 });
+// Route pour effectuer un dépôt
+app.post('/api/deposit', async (req, res) => {
+    const { user_id, amount } = req.body;
+    try {
+        const query = `
+            INSERT INTO transactions (user_id, type, amount, status) 
+            VALUES ($1, 'DEPOT', $2, 'VALIDE') 
+            RETURNING *;
+        `;
+        const values = [user_id, amount];
+        const result = await pool.query(query, values);
+        
+        res.status(201).json({
+            message: "Dépôt enregistré avec succès",
+            transaction: result.rows[0]
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Erreur serveur lors du dépôt" });
+    }
+});
+
+// Route pour demander un retrait
+app.post('/api/withdraw', async (req, res) => {
+    const { user_id, amount } = req.body;
+    try {
+        // Optionnel : vérifier si l'utilisateur a assez d'argent avant d'accepter la demande
+        const query = `
+            INSERT INTO transactions (user_id, type, amount, status) 
+            VALUES ($1, 'RETRAIT', $2, 'EN_ATTENTE') 
+            RETURNING *;
+        `;
+        const values = [user_id, amount];
+        const result = await pool.query(query, values);
+
+        res.status(201).json({
+            message: "Demande de retrait enregistrée, en attente de validation",
+            transaction: result.rows[0]
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Erreur serveur lors de la demande de retrait" });
+    }
+});
