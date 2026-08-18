@@ -7,10 +7,8 @@ app.use(express.json());
 
 // Servir ton site web d'origine à la racine
 app.get('/', (req, res) => {
-    res.sendFile('/home/williamdacoula/mon-site/index.html');
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
-
-// Connexion à la base de données
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false }
