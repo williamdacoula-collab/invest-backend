@@ -3,7 +3,10 @@ const { Pool } = require('pg');
 const app = express();
 
 app.use(express.json());
-
+// Route d'accueil racine
+app.get('/', (req, res) => {
+    res.send("Le serveur Backend est en ligne et opérationnel !");
+});
 // Connexion à la base de données (Neon / PostgreSQL)
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
