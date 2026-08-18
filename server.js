@@ -7,7 +7,7 @@ app.use(express.json());
 
 // Servir ton site web d'origine à la racine
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../index.html'));
+    res.sendFile('/home/williamdacoula/mon-site/index.html');
 });
 
 // Connexion à la base de données
