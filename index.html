@@ -1,182 +1,198 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InvestCI</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #172033;
-    }
-
-    header {
-      background: #101828;
-      color: white;
-      padding: 22px;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 28px;
-    }
-
-    header p {
-      margin: 6px 0 0;
-      color: #b8c2d1;
-    }
-
-    main {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    .balance {
-      background: white;
-      border-radius: 18px;
-      padding: 24px;
-      margin-bottom: 20px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    }
-
-    .balance small {
-      color: #667085;
-    }
-
-    .balance h2 {
-      font-size: 36px;
-      margin: 8px 0;
-    }
-
-    .gain {
-      color: #12b76a;
-      font-weight: bold;
-    }
-
-    .card {
-      background: white;
-      border-radius: 18px;
-      padding: 20px;
-      margin-bottom: 16px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-    }
-
-    .card h3 {
-      margin-top: 0;
-    }
-
-    .investment {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid #eaecf0;
-      padding: 16px 0;
-    }
-
-    .investment:first-of-type {
-      border-top: none;
-    }
-
-    button {
-      border: none;
-      border-radius: 10px;
-      padding: 11px 18px;
-      background: #155eef;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:hover {
-      opacity: 0.9;
-    }
-
-    .demo {
-      text-align: center;
-      background: #fff4e5;
-      color: #9a5b00;
-      padding: 12px;
-      border-radius: 12px;
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvestCI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #0f172a;
+            color: white;
+            padding: 22px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        header p {
+            margin: 6px 0 0;
+            color: #b8c2d1;
+        }
+        main {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+        .balance {
+            background: white;
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+        .balance small {
+            color: #667085;
+        }
+        .balance h2 {
+            font-size: 36px;
+            margin: 8px 0;
+        }
+        .gain {
+            color: #12b76a;
+        }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+        .card h3 {
+            margin-top: 0;
+        }
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .plan-box {
+            border: 1px solid #eaecf0;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            background: #fafafa;
+        }
+        .plan-box h4 {
+            margin: 0 0 10px;
+            color: #0284c7;
+        }
+        .plan-box .price {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .plan-box small {
+            color: #475569;
+            display: block;
+            margin-bottom: 12px;
+        }
+        button {
+            border: none;
+            border-radius: 10px;
+            padding: 11px 18px;
+            background: #155eef;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .payment-methods {
+            text-align: center;
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+        .payment-methods p {
+            margin: 0 0 10px;
+            font-weight: bold;
+            color: #344054;
+        }
+        .payment-methods img {
+            height: 25px;
+            margin: 0 8px;
+            vertical-align: middle;
+        }
+    </style>
 </head>
-
 <body>
 
-  <header>
+<header>
     <h1>InvestCI</h1>
     <p>Votre portefeuille d'investissement</p>
-  </header>
+</header>
 
-  <main>
-
+<main>
     <section class="balance">
-      <small>Solde disponible</small>
-      <h2>500 000 FCFA</h2>
-      <div class="gain">+ 12 500 FCFA aujourd'hui</div>
+        <small>Solde disponible</small>
+        <h2>500 000 FCFA</h2>
+        <div class="gain">+ 12 500 FCFA aujourd'hui</div>
     </section>
 
     <section class="card">
-      <h3>Mes investissements</h3>
-
-      <div class="investment">
-        <div>
-          <strong>Entreprise A</strong><br>
-          <small>Actions</small>
+        <h3>Plans d'Investissement Disponibles</h3>
+        <p>Choisissez un plan pour faire fructifier votre capital.</p>
+        
+        <div class="plans-grid">
+            <div class="plan-box">
+                <h4>Plan Mini</h4>
+                <div class="price">1 000 FCFA</div>
+                <small>+2.0% / jour (30 jours)</small>
+                <button type="button" id="pay-btn-1">Investir</button>
+            </div>
+            <div class="plan-box">
+                <h4>Plan Bronze</h4>
+                <div class="price">5 000 FCFA</div>
+                <small>+2.5% / jour (30 jours)</small>
+                <button type="button" id="pay-btn-5">Investir</button>
+            </div>
+            <div class="plan-box">
+                <h4>Plan Argent</h4>
+                <div class="price">20 000 FCFA</div>
+                <small>+3.5% / jour (30 jours)</small>
+                <button type="button" id="pay-btn-20">Investir</button>
+            </div>
+            <div class="plan-box">
+                <h4>Plan Or</h4>
+                <div class="price">50 000 FCFA</div>
+                <small>+5.0% / jour (30 jours)</small>
+                <button type="button" id="pay-btn-50">Investir</button>
+            </div>
         </div>
-        <div>
-          <strong>150 000 FCFA</strong><br>
-          <span class="gain">+5,2 %</span>
-        </div>
-      </div>
-
-      <div class="investment">
-        <div>
-          <strong>Fonds Afrique</strong><br>
-          <small>Fonds d'investissement</small>
-        </div>
-        <div>
-          <strong>200 000 FCFA</strong><br>
-          <span class="gain">+3,8 %</span>
-        </div>
-      </div>
-
-      <div class="investment">
-        <div>
-          <strong>Obligations</strong><br>
-          <small>Obligations</small>
-        </div>
-        <div>
-          <strong>100 000 FCFA</strong><br>
-          <span class="gain">+2,1 %</span>
-        </div>
-      </div>
-
     </section>
 
     <section class="card">
-      <h3>Investir</h3>
-      <p>Choisissez un investissement à explorer.</p>
-
-      <button onclick="alert('Mode démo : aucune transaction réelle.')">
-        Investir
-      </button>
+        <h3>Effectuer un Retrait</h3>
+        <p>Entrez le montant que vous souhaitez retirer sur votre compte.</p>
+        <input type="number" id="retrait-montant" placeholder="Montant en FCFA" style="padding: 10px; margin-top: 10px; width: 100%; box-sizing: border-box; border: 1px solid #d0d5dd; border-radius: 8px;">
+        <button type="button" id="retrait-btn" style="margin-top: 10px; background: #dc2626;">Retirer</button>
     </section>
 
-    <div class="demo">
-      ⚠️ MODE DÉMO — Aucun argent réel n'est utilisé.
+    <div class="payment-methods">
+        <p>Moyens de paiement acceptés :</p>
+        <div>
+            <span style="font-weight:bold; color:#00a3e0; margin:0 5px;">Wave</span>
+            <span style="font-weight:bold; color:#ffcc00; margin:0 5px;">MTN</span>
+            <span style="font-weight:bold; color:#ff6600; margin:0 5px;">Moov</span>
+            <span style="font-weight:bold; color:#ff6600; margin:0 5px;">Orange</span>
+        </div>
     </div>
+</main>
 
-  </main>
+<script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
+<script>
+    document.getElementById('retrait-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        const montant = parseInt(document.getElementById('retrait-montant').value, 10);
+        if (!montant || montant < 500) {
+            alert("Le montant minimum de retrait est de 500 FCFA.");
+            return;
+        }
+        alert("Demande de retrait de " + montant + " FCFA prise en compte avec succès !");
+    });
+</script>
 
 </body>
 </html>
