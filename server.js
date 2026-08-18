@@ -1,13 +1,16 @@
 const express = require('express');
 const { Pool } = require('pg');
+const path = require('path');
 const app = express();
 
 app.use(express.json());
-// Route d'accueil racine
+
+// Servir ton site web d'origine à la racine
 app.get('/', (req, res) => {
-    res.send("Le serveur Backend est en ligne et opérationnel !");
+    res.sendFile(path.join(__dirname, '../index.html'));
 });
-// Connexion à la base de données (Neon / PostgreSQL)
+
+// Connexion à la base de données
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false }
@@ -42,16 +45,16 @@ app.post('/api/withdraw', async (req, res) => {
             return res.status(400).json({ error: "Solde insuffisant pour effectuer ce retrait." });
         }
 
-        const query = `INSERT INTO transactions (user_id, type, amount, status) VALUES ($1, 'RETRAIT', $2, 'EN_ATTENTE') RETURNING *`;
+        const query = 'INSERT INTO transactions (user_id, type, amount, status) VALUES ($1, \'RETRAIT\', $2, \'EN_ATTENTE\') RETURNING *';
         const result = await pool.query(query, [user_id, amount]);
-        
+
         res.json({ message: "Demande de retrait enregistrée", transaction: result.rows[0] });
     } catch (err) {
         res.status(500).json({ error: "Erreur serveur lors du retrait" });
     }
 });
 
-// Démarrage du serveur (TOUJOURS EN DERNIER)
+// Démarrage du serveur
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur le port ${PORT}`);
