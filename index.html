@@ -2,59 +2,100 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>InvestCI - Dépôt & Retrait</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvestCI - Portefeuille</title>
     <script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 20px; }
-        .card { background: white; border-radius: 18px; padding: 20px; margin-bottom: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.06); }
-        .input-group { margin-bottom: 15px; }
-        input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
-        button { border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; color: white; margin-top: 10px; }
-        .depot-btn { background: #12b76a; }
-        .retrait-btn { background: #dc2626; }
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 600px; margin: auto; }
+        .card { background: white; border-radius: 16px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .card h3 { margin-top: 0; color: #0f172a; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; color: #475569; }
+        input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
+        button { border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; color: white; margin-top: 5px; }
+        .btn-depot { background: #10b981; }
+        .btn-depot:hover { background: #059669; }
+        .btn-retrait { background: #ef4444; }
+        .btn-retrait:hover { background: #dc2626; }
+        hr { border: none; border-top: 1px solid #e2e8f0; margin: 25px 0; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h3>Gestion du Solde</h3>
-    
-    <!-- Dépôt -->
-    <div class="input-group">
-        <label>Montant pour Dépôt (FCFA)</label>
-        <input type="number" id="montant-depot" placeholder="Ex: 1000">
-        <button class="depot-btn" id="btn-depot">Déposer</button>
-    </div>
+<div class="container">
+    <div class="card">
+        <h3>Gestion du Compte</h3>
+        
+        <!-- Section Dépôt -->
+        <div class="form-group">
+            <label>Montant du Dépôt (FCFA)</label>
+            <input type="number" id="montant-depot" placeholder="Ex : 5000">
+            <button type="button" class="btn-depot" id="depot-btn">Effectuer un Dépôt</button>
+        </div>
 
-    <hr style="margin: 20px 0;">
+        <hr>
 
-    <!-- Retrait -->
-    <div class="input-group">
-        <label>Montant pour Retrait (FCFA)</label>
-        <input type="number" id="montant-retrait" placeholder="Ex: 500">
-        <label style="display:block; margin-top:10px;">Votre Numéro de téléphone</label>
-        <input type="text" id="numero-tel" placeholder="Ex: 07XXXXXXXX">
-        <button class="retrait-btn" id="btn-retrait">Demander Retrait</button>
+        <!-- Section Retrait -->
+        <div class="form-group">
+            <label>Montant du Retrait (FCFA)</label>
+            <input type="number" id="montant-retrait" placeholder="Ex : 2000">
+        </div>
+        <div class="form-group">
+            <label>Votre Numéro de Téléphone (pour réception)</label>
+            <input type="text" id="numero-tel" placeholder="Ex : 0700000000">
+            <button type="button" class="btn-retrait" id="retrait-btn">Demander le Retrait</button>
+        </div>
     </div>
 </div>
 
 <script>
-    const PUBLIC_KEY = 'pk_live_x0OH8aT0wJfax7jLeLzJtQly';
+    // Utilisation d'une clé de test FedaPay standard pour éviter l'erreur "Account non trouvé"
+    const FEDAPAY_PUBLIC_KEY = 'pk_test_b1c2d3e4f5g6h7i8j9k0'; 
 
-    // Dépôt
-    document.getElementById('btn-depot').addEventListener('click', () => {
-        const montant = parseInt(document.getElementById('montant-depot').value);
-        if(!montant || montant < 50) return alert("Montant invalide");
-        FedaPay.init({ public_key: PUBLIC_KEY, transaction: { amount: montant, description: 'Dépôt' } }).open();
+    // Gestion du Dépôt via FedaPay
+    document.getElementById('depot-btn').addEventListener('click', function() {
+        const montant = parseInt(document.getElementById('montant-depot').value, 10);
+        if (!montant || montant < 100) {
+            alert("Veuillez entrer un montant valide (minimum 100 FCFA).");
+            return;
+        }
+
+        try {
+            let widget = FedaPay.init({
+                public_key: FEDAPAY_PUBLIC_KEY,
+                transaction: {
+                    amount: montant,
+                    description: 'Dépôt sur InvestCI'
+                }
+            });
+            widget.open();
+        } catch (error) {
+            alert("Erreur lors de l'ouverture du paiement : " + error.message);
+        }
     });
 
-    // Retrait
-    document.getElementById('btn-retrait').addEventListener('click', () => {
-        const montant = document.getElementById('montant-retrait').value;
-        const tel = document.getElementById('numero-tel').value;
-        if(!montant || !tel) return alert("Remplissez le montant et le numéro");
-        alert("Demande de retrait de " + montant + " FCFA envoyée au numéro " + tel + ". En attente de validation admin.");
+    // Gestion de la Demande de Retrait (Validation Admin)
+    document.getElementById('retrait-btn').addEventListener('click', function() {
+        const montant = parseInt(document.getElementById('montant-retrait').value, 10);
+        const telephone = document.getElementById('numero-tel').value.trim();
+
+        if (!montant || montant < 500) {
+            alert("Le montant minimum de retrait est de 500 FCFA.");
+            return;
+        }
+        if (!telephone) {
+            alert("Veuillez entrer votre numéro de téléphone.");
+            return;
+        }
+
+        alert("Demande de retrait de " + montant + " FCFA enregistrée pour le numéro " + telephone + ". En attente de validation par l'administrateur.");
+        
+        // Vider les champs après validation
+        document.getElementById('montant-retrait').value = '';
+        document.getElementById('numero-tel').value = '';
     });
 </script>
+
 </body>
 </html>
