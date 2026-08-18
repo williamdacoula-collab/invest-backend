@@ -13,7 +13,7 @@ router.post('/register', async (req, res) => {
     res.status(201).json({ message: 'Compte créé avec succès', user: result.rows[0] });
   } catch (err) {
     console.error('Erreur inscription :', err);
-    res.status(500).json({ error: 'Erreur serveur lors de la création du compte' });
+    res.status(500).json({ error: 'Erreur SQL : ' + err.message });
   }
 });
 
@@ -31,7 +31,7 @@ router.post('/login', async (req, res) => {
     res.json({ message: 'Connexion réussie', user: result.rows[0] });
   } catch (err) {
     console.error('Erreur connexion :', err);
-    res.status(500).json({ error: 'Erreur serveur lors de la connexion' });
+    res.status(500).json({ error: 'Erreur SQL : ' + err.message });
   }
 });
 
