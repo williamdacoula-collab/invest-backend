@@ -1,58 +1,32 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Administration - Utilisateurs</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f9; color: #333; }
-        h1 { color: #0284c7; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        th, td { padding: 12px 15px; border: 1px solid #ddd; text-align: left; }
-        th { background-color: #0f172a; color: #fff; }
-        tr:nth-child(even) { background-color: #f8fafc; }
-    </style>
-</head>
+<html>
 <body>
-    <h1>Panneau d'Administration</h1>
-    <p>Liste des utilisateurs inscrits :</p>
+    <h1>Administration - Retraits en attente</h1>
     <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>Date d'inscription</th>
-            </tr>
-        </thead>
-        <tbody id="users-table">
-            <tr><td colspan="4" style="text-align: center;">Chargement...</td></tr>
-        </tbody>
+        <thead><tr><th>ID</th><th>User</th><th>Montant</th><th>Action</th></tr></thead>
+        <tbody id="withdraw-table"></tbody>
     </table>
 
     <script>
-        fetch('/api/admin/users')
+        fetch('/api/transactions?type=RETRAIT&status=EN_ATTENTE')
             .then(res => res.json())
             .then(data => {
-                const tbody = document.getElementById('users-table');
-                tbody.innerHTML = '';
-                if(data.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Aucun utilisateur trouvé</td></tr>';
-                    return;
-                }
-                data.forEach(user => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${user.id}</td>
-                        <td>${user.name}</td>
-                        <td>${user.email}</td>
-                        <td>${new Date(user.created_at).toLocaleString()}</td>
-                    `;
-                    tbody.appendChild(tr);
+                const tbody = document.getElementById('withdraw-table');
+                data.forEach(t => {
+                    tbody.innerHTML += `<tr>
+                        <td>${t.id}</td><td>${t.user_id}</td><td>${t.amount}</td>
+                        <td><button onclick="valider(${t.id})">Valider</button></td>
+                    </tr>`;
                 });
-            })
-            .catch(err => {
-                document.getElementById('users-table').innerHTML = '<tr><td colspan="4" style="text-align: center; color: red;">Erreur de chargement des données</td></tr>';
             });
+
+        function valider(id) {
+            fetch('/api/admin/validate-withdraw', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ transaction_id: id })
+            }).then(() => location.reload());
+        }
     </script>
 </body>
 </html>

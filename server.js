@@ -100,3 +100,14 @@ app.post('/api/withdraw', async (req, res) => {
         res.status(500).json({ error: "Erreur serveur lors de la demande de retrait" });
     }
 });
+// Route pour valider un retrait
+app.post('/api/admin/validate-withdraw', async (req, res) => {
+    const { transaction_id } = req.body;
+    try {
+        const query = `UPDATE transactions SET status = 'VALIDE' WHERE id = $1 AND type = 'RETRAIT'`;
+        await pool.query(query, [transaction_id]);
+        res.json({ message: "Retrait validé avec succès" });
+    } catch (err) {
+        res.status(500).json({ error: "Erreur lors de la validation" });
+    }
+});
