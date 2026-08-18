@@ -2,55 +2,137 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>InvestApp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvestCI - Tableau de Bord</title>
     <script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
     <style>
-        body { font-family: sans-serif; background: #f9f9f9; padding: 20px; }
-        .card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        input { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; color: white; background: #155eef; }
-        .plans { display: flex; gap: 10px; flex-wrap: wrap; }
-        .plan { border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; flex: 1; min-width: 150px; }
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 900px; margin: auto; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .header-flex { display: flex; justify-content: space-between; align-items: center; }
+        .btn-logout { background: #fee2e2; color: #dc2626; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .solde-box { font-size: 28px; font-weight: bold; color: #2563eb; margin: 10px 0; }
+        .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 15px; }
+        .plan-card { border: 1px solid #e2e8f0; border-radius: 10px; padding: 15px; text-align: center; }
+        .plan-card h4 { margin: 5px 0; color: #1e293b; }
+        .plan-card p { color: #64748b; font-size: 13px; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; }
+        button.action-btn { width: 100%; border: none; padding: 12px; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        .btn-depot { background: #10b981; }
+        .btn-invest { background: #2563eb; }
+        .btn-retrait { background: #dc2626; }
+        .payment-methods { text-align: center; margin-top: 15px; font-size: 14px; color: #64748b; }
     </style>
 </head>
 <body>
 
-    <!-- CONNEXION / INSCRIPTION -->
+<div class="container">
+    <!-- En-tête / Tableau de bord -->
     <div class="card">
-        <h3>Connexion / Inscription</h3>
-        <input type="email" placeholder="Email">
-        <input type="password" placeholder="Mot de passe">
-        <button>Se connecter</button>
-        <button style="background: #10b981;">S'inscrire</button>
-    </div>
-
-    <!-- TABLEAU DE BORD -->
-    <div class="card">
-        <h2>Tableau de bord</h2>
-        <div style="font-size: 20px; font-weight: bold;">Solde Actuel : 0 FCFA</div>
-        <input type="number" placeholder="Montant en FCFA (min 50)">
-        <button style="background: #059669;">Déposer</button>
-    </div>
-
-    <!-- PLANS -->
-    <div class="card">
-        <h3>Plans d'Investissement</h3>
-        <div class="plans">
-            <div class="plan">Mini<br>1 000 FCFA<br><button>Investir</button></div>
-            <div class="plan">Bronze<br>5 000 FCFA<br><button>Investir</button></div>
-            <div class="plan">Argent<br>20 000 FCFA<br><button>Investir</button></div>
-            <div class="plan">Or<br>50 000 FCFA<br><button>Investir</button></div>
+        <div class="header-flex">
+            <h2>Tableau de bord</h2>
+            <button class="btn-logout" onclick="alert('Déconnexion')">Déconnexion</button>
+        </div>
+        <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
+            <div style="flex: 1; min-width: 250px;">
+                <h3>Solde Actuel</h3>
+                <div class="solde-box" id="solde-affichage">0 FCFA</div>
+            </div>
+            <div style="flex: 1; min-width: 250px;">
+                <h3>Recharger le solde (Dépôt)</h3>
+                <input type="number" id="montant-depot" placeholder="Montant en FCFA (min 100)">
+                <button class="action-btn btn-depot" onclick="lancerDepot()">Déposer</button>
+            </div>
         </div>
     </div>
 
-    <!-- RETRAIT -->
+    <!-- Plans d'Investissement -->
+    <div class="card">
+        <h3>Plans d'Investissement Disponibles</h3>
+        <div class="plans-grid">
+            <div class="plan-card">
+                <h4>Plan Mini</h4>
+                <p>1 000 FCFA</p>
+                <p>+2.0% / jour</p>
+                <button class="action-btn btn-invest" onclick="investir(1000)">Investir</button>
+            </div>
+            <div class="plan-card">
+                <h4>Plan Bronze</h4>
+                <p>5 000 FCFA</p>
+                <p>+2.5% / jour</p>
+                <button class="action-btn btn-invest" onclick="investir(5000)">Investir</button>
+            </div>
+            <div class="plan-card">
+                <h4>Plan Argent</h4>
+                <p>20 000 FCFA</p>
+                <p>+3.5% / jour</p>
+                <button class="action-btn btn-invest" onclick="investir(20000)">Investir</button>
+            </div>
+            <div class="plan-card">
+                <h4>Plan Or</h4>
+                <p>50 000 FCFA</p>
+                <p>+5.0% / jour</p>
+                <button class="action-btn btn-invest" onclick="investir(50000)">Investir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Retrait -->
     <div class="card">
         <h3>Effectuer un Retrait</h3>
-        <input type="number" placeholder="Montant en FCFA">
-        <input type="text" placeholder="Numéro de téléphone">
-        <button style="background: #dc2626;">Retirer</button>
-        <div style="margin-top:20px;">Moyens de paiement acceptés : Wave, MTN, Moov, Orange</div>
+        <input type="number" id="montant-retrait" placeholder="Montant en FCFA">
+        <input type="text" id="numero-retrait" placeholder="Numéro de téléphone (ex: 0700000000)">
+        <button class="action-btn btn-retrait" onclick="demanderRetrait()">Retirer</button>
+        <div class="payment-methods">
+            Moyens de paiement acceptés : Wave, MTN, Moov, Orange
+        </div>
     </div>
+</div>
+
+<script>
+    // Clé FedaPay Live (assure-toi que ton compte est activé sur FedaPay pour l'utiliser en prod)
+    const FEDAPAY_PUBLIC_KEY = 'pk_live_x0OH8aT0wJfax7jLeLzJtQly';
+
+    function ouvrirPaiement(montant, description) {
+        if (!montant || montant < 100) {
+            alert("Veuillez entrer un montant valide (minimum 100 FCFA).");
+            return;
+        }
+        try {
+            let widget = FedaPay.init({
+                public_key: FEDAPAY_PUBLIC_KEY,
+                transaction: {
+                    amount: parseInt(montant, 10),
+                    description: description
+                }
+            });
+            widget.open();
+        } catch (e) {
+            alert("Erreur d'ouverture du widget : " + e.message);
+        }
+    }
+
+    function lancerDepot() {
+        const montant = document.getElementById('montant-depot').value;
+        ouvrirPaiement(montant, "Recharge de solde - InvestCI");
+    }
+
+    function investir(montant) {
+        ouvrirPaiement(montant, "Investissement Plan - InvestCI");
+    }
+
+    function demanderRetrait() {
+        const montant = document.getElementById('montant-retrait').value;
+        const numero = document.getElementById('numero-retrait').value;
+        if (!montant || !numero) {
+            alert("Veuillez remplir tous les champs du retrait.");
+            return;
+        }
+        alert("Demande de retrait de " + montant + " FCFA enregistrée pour le numéro " + numero + ".");
+        document.getElementById('montant-retrait').value = '';
+        document.getElementById('numero-retrait').value = '';
+    }
+</script>
 
 </body>
 </html>
