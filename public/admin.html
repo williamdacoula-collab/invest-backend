@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Administration - Sécurité & Gestion</title>
+    <title>Administration Sécurisée</title>
     <style>
         body { font-family: Arial, sans-serif; background: #f4f7f6; padding: 20px; }
         h1, h2 { color: #333; }
@@ -15,55 +15,81 @@
         button.btn-danger:hover { background: #c82333; }
         button:hover { background: #218838; }
         .no-data { text-align: center; color: #777; padding: 20px; }
+        #admin-content { display: none; }
     </style>
 </head>
 <body>
-    <h1>Panneau d'Administration</h1>
 
-    <h2>Retraits en attente</h2>
-    <table>
-        <thead>
-            <tr><th>ID</th><th>User ID</th><th>Montant</th><th>Action</th></tr>
-        </thead>
-        <tbody id="withdraw-table">
-            <tr><td colspan="4" class="no-data">Chargement...</td></tr>
-        </tbody>
-    </table>
+    <div id="login-container" style="max-width: 400px; margin: 100px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center;">
+        <h2>Accès Administrateur</h2>
+        <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Veuillez entrer le mot de passe secret</p>
+        <input type="password" id="admin-pass" placeholder="Mot de passe" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;">
+        <br>
+        <button onclick="verifierMotDePasse()" style="width: 100%; padding: 10px;">Se connecter</button>
+    </div>
 
-    <h2>Liste des Utilisateurs & Sécurité (Anti-Arnaque)</h2>
-    <table>
-        <thead>
-            <tr><th>ID</th><th>Nom</th><th>Email</th><th>Statut</th><th>Action</th></tr>
-        </thead>
-        <tbody id="users-table">
-            <tr><td colspan="5" class="no-data">Chargement...</td></tr>
-        </tbody>
-    </table>
+    <div id="admin-content">
+        <h1>Panneau d'Administration</h1>
+
+        <h2>Retraits en attente</h2>
+        <table>
+            <thead>
+                <tr><th>ID</th><th>User ID</th><th>Montant</th><th>Action</th></tr>
+            </thead>
+            <tbody id="withdraw-table">
+                <tr><td colspan="4" class="no-data">Chargement...</td></tr>
+            </tbody>
+        </table>
+
+        <h2>Liste des Utilisateurs & Sécurité (Anti-Arnaque)</h2>
+        <table>
+            <thead>
+                <tr><th>ID</th><th>Nom</th><th>Email</th><th>Statut</th><th>Action</th></tr>
+            </thead>
+            <tbody id="users-table">
+                <tr><td colspan="5" class="no-data">Chargement...</td></tr>
+            </tbody>
+        </table>
+    </div>
 
     <script>
-        // Charger les retraits
-        fetch('/api/transactions?type=RETRAIT&status=EN_ATTENTE')
-            .then(res => res.json())
-            .then(data => {
-                const tbody = document.getElementById('withdraw-table');
-                tbody.innerHTML = data.length === 0 ? '<tr><td colspan="4" class="no-data">Aucun retrait en attente.</td></tr>' : '';
-                data.forEach(t => {
-                    tbody.innerHTML += `<tr><td>${t.id}</td><td>${t.user_id}</td><td><strong>${t.amount} FCFA</strong></td><td><button onclick="validerRetrait(${t.id})">Valider</button></td></tr>`;
-                });
-            });
+        const MOT_DE_PASSE_ADMIN = "Williams.225.BAY";
 
-        // Charger les utilisateurs
-        fetch('/api/admin/users')
-            .then(res => res.json())
-            .then(data => {
-                const tbody = document.getElementById('users-table');
-                tbody.innerHTML = data.length === 0 ? '<tr><td colspan="5" class="no-data">Aucun utilisateur.</td></tr>' : '';
-                data.forEach(u => {
-                    let statut = u.is_banned ? '<span style="color:red; font-weight:bold;">Banni</span>' : '<actif style="color:green;">Actif</actif>';
-                    let actionBtn = u.is_banned ? '<span>Déjà banni</span>' : `<button class="btn-danger" onclick="bannirUser(${u.id})">Bannir</button>`;
-                    tbody.innerHTML += `<tr><td>${u.id}</td><td>${u.nom}</td><td>${u.email}</td><td>${statut}</td><td>${actionBtn}</td></tr>`;
+        function verifierMotDePasse() {
+            const saisie = document.getElementById('admin-pass').value;
+            if (saisie === MOT_DE_PASSE_ADMIN) {
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('admin-content').style.display = 'block';
+                chargerDonneesAdmin();
+            } else {
+                alert("Mot de passe incorrect !");
+            }
+        }
+
+        function chargerDonneesAdmin() {
+            fetch('/api/transactions?type=RETRAIT&status=EN_ATTENTE')
+                .then(res => res.json())
+                .then(data => {
+                    const tbody = document.getElementById('withdraw-table');
+                    tbody.innerHTML = data.length === 0 ? '<tr><td colspan="4" class="no-data">Aucun retrait en attente.</td></tr>' : '';
+                    data.forEach(t => {
+                        tbody.innerHTML += `<tr><td>${t.id}</td><td>${t.user_id}</td><td><strong>${t.amount} FCFA</strong></td><td><button onclick="validerRetrait(${t.id})">Valider</button></td></tr>`;
+                    });
                 });
-            });
+
+            fetch('/api/admin/users')
+                .then(res => res.json())
+                .then(data => {
+                    const tbody = document.getElementById('users-table');
+                    tbody.innerHTML = data.length === 0 ? '<tr><td colspan="5" class="no-data">Aucun utilisateur.</td></tr>' : '';
+                    data.forEach(u => {
+                        let nomUtilisateur = u.nom || u.name || "Inconnu";
+                        let statut = u.is_banned ? '<span style="color:red; font-weight:bold;">Banni</span>' : '<span style="color:green;">Actif</span>';
+                        let actionBtn = u.is_banned ? '<span>Déjà banni</span>' : `<button class="btn-danger" onclick="bannirUser(${u.id})">Bannir</button>`;
+                        tbody.innerHTML += `<tr><td>${u.id}</td><td>${nomUtilisateur}</td><td>${u.email}</td><td>${statut}</td><td>${actionBtn}</td></tr>`;
+                    });
+                });
+        }
 
         function validerRetrait(id) {
             if(confirm("Valider ce retrait ?")) {
