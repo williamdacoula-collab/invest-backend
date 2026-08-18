@@ -1,11 +1,11 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
-const isInternal = !process.env.DATABASE_URL.includes('render.com');
-
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: isInternal ? false : { rejectUnauthorized: false }
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 pool.connect((err, client, release) => {
