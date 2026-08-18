@@ -30,12 +30,14 @@
         <h2>Tableau de Bord</h2>
         <p><strong>Solde Actuel :</strong> <span id="solde-actuel">0</span> FCFA</p>
         <button onclick="deconnexion()" class="btn-danger">Se déconnecter</button>
+<hr style="margin: 20px 0;">
 
-        <hr style="margin: 20px 0;">
+        <!-- Bloc de Retrait Sécurisé -->
+        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-top: 20px;">
+                <input type="number" id="withdraw-amount" placeholder="Montant en FCFA" style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+            </div>
+        </div>
 
-        <h3>Effectuer un Retrait</h3>
-        <input type="number" id="withdraw-amount" placeholder="Montant en FCFA">
-        <button onclick="demanderRetrait()" class="btn-danger">Demander le retrait</button>
     </div>
 
     <script>
