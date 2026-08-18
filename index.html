@@ -3,99 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InvestCI - Tableau de Bord</title>
+    <title>InvestCI</title>
     <script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; color: #333; }
         .container { max-width: 900px; margin: auto; }
         .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .hidden { display: none; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; border: none; padding: 12px; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn-primary { background: #2563eb; }
+        .btn-success { background: #10b981; }
+        .btn-danger { background: #dc2626; }
+        .btn-secondary { background: #64748b; }
+        .link-text { color: #2563eb; cursor: pointer; text-align: center; margin-top: 15px; display: block; font-weight: bold; }
+        
+        /* Dashboard styles */
         .header-flex { display: flex; justify-content: space-between; align-items: center; }
-        .btn-logout { background: #fee2e2; color: #dc2626; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .solde-box { font-size: 28px; font-weight: bold; color: #2563eb; margin: 10px 0; }
+        .solde-box { font-size: 28px; font-weight: bold; color: #2563eb; margin: 10px 0; display: flex; align-items: center; gap: 10px; }
+        .toggle-solde { background: none; border: none; color: #64748b; cursor: pointer; font-size: 14px; width: auto; padding: 5px 10px; }
         .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 15px; }
         .plan-card { border: 1px solid #e2e8f0; border-radius: 10px; padding: 15px; text-align: center; }
         .plan-card h4 { margin: 5px 0; color: #1e293b; }
         .plan-card p { color: #64748b; font-size: 13px; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; }
-        button.action-btn { width: 100%; border: none; padding: 12px; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; margin-top: 5px; }
-        .btn-depot { background: #10b981; }
-        .btn-invest { background: #2563eb; }
-        .btn-retrait { background: #dc2626; }
-        .payment-methods { text-align: center; margin-top: 15px; font-size: 14px; color: #64748b; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- En-tête / Tableau de bord -->
-    <div class="card">
-        <div class="header-flex">
-            <h2>Tableau de bord</h2>
-            <button class="btn-logout" onclick="alert('Déconnexion')">Déconnexion</button>
-        </div>
-        <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
-            <div style="flex: 1; min-width: 250px;">
-                <h3>Solde Actuel</h3>
-                <div class="solde-box" id="solde-affichage">0 FCFA</div>
-            </div>
-            <div style="flex: 1; min-width: 250px;">
-                <h3>Recharger le solde (Dépôt)</h3>
-                <input type="number" id="montant-depot" placeholder="Montant en FCFA (min 100)">
-                <button class="action-btn btn-depot" onclick="lancerDepot()">Déposer</button>
-            </div>
-        </div>
+
+    <!-- 1. PAGE DE CONNEXION -->
+    <div id="page-connexion" class="card">
+        <h2>Connexion à InvestCI</h2>
+        <input type="email" id="login-email" placeholder="Adresse Email">
+        <input type="password" id="login-password" placeholder="Mot de passe">
+        <button class="btn-primary" onclick="connecter()">Se connecter</button>
+        <span class="link-text" onclick="afficherPage('page-inscription')">Pas encore de compte ? S'inscrire</span>
     </div>
 
-    <!-- Plans d'Investissement -->
-    <div class="card">
-        <h3>Plans d'Investissement Disponibles</h3>
-        <div class="plans-grid">
-            <div class="plan-card">
-                <h4>Plan Mini</h4>
-                <p>1 000 FCFA</p>
-                <p>+2.0% / jour</p>
-                <button class="action-btn btn-invest" onclick="investir(1000)">Investir</button>
-            </div>
-            <div class="plan-card">
-                <h4>Plan Bronze</h4>
-                <p>5 000 FCFA</p>
-                <p>+2.5% / jour</p>
-                <button class="action-btn btn-invest" onclick="investir(5000)">Investir</button>
-            </div>
-            <div class="plan-card">
-                <h4>Plan Argent</h4>
-                <p>20 000 FCFA</p>
-                <p>+3.5% / jour</p>
-                <button class="action-btn btn-invest" onclick="investir(20000)">Investir</button>
-            </div>
-            <div class="plan-card">
-                <h4>Plan Or</h4>
-                <p>50 000 FCFA</p>
-                <p>+5.0% / jour</p>
-                <button class="action-btn btn-invest" onclick="investir(50000)">Investir</button>
-            </div>
-        </div>
+    <!-- 2. PAGE D'INSCRIPTION -->
+    <div id="page-inscription" class="card hidden">
+        <h2>Inscription</h2>
+        <input type="email" id="reg-email" placeholder="Adresse Email">
+        <input type="tel" id="reg-tel" placeholder="Numéro de téléphone">
+        <input type="password" id="reg-password" placeholder="Mot de passe">
+        <button class="btn-success" onclick="inscrire()">S'inscrire</button>
+        <span class="link-text" onclick="afficherPage('page-connexion')">Déjà un compte ? Se connecter</span>
     </div>
 
-    <!-- Section Retrait -->
-    <div class="card">
-        <h3>Effectuer un Retrait</h3>
-        <input type="number" id="montant-retrait" placeholder="Montant en FCFA">
-        <input type="text" id="numero-retrait" placeholder="Numéro de téléphone (ex: 0700000000)">
-        <button class="action-btn btn-retrait" onclick="demanderRetrait()">Retirer</button>
-        <div class="payment-methods">
-            Moyens de paiement acceptés : Wave, MTN, Moov, Orange
+    <!-- 3. TABLEAU DE BORD (INVESTISSEMENTS, DÉPÔT, RETRAIT) -->
+    <div id="page-dashboard" class="hidden">
+        
+        <!-- En-tête & Solde & Dépôt -->
+        <div class="card">
+            <div class="header-flex">
+                <h2>Tableau de bord</h2>
+                <button class="btn-secondary" style="width: auto; padding: 8px 16px;" onclick="deconnecter()">Déconnexion</button>
+            </div>
+            
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
+                <div style="flex: 1; min-width: 250px;">
+                    <h3>Solde Actuel</h3>
+                    <div class="solde-box">
+                        <span id="texte-solde">0 FCFA</span>
+                        <button class="toggle-solde" onclick="masquerSolde()">👁️ Masquer</button>
+                    </div>
+                </div>
+                <div style="flex: 1; min-width: 250px;">
+                    <h3>Recharger le solde (Dépôt)</h3>
+                    <input type="number" id="montant-depot" placeholder="Montant en FCFA">
+                    <button class="btn-success" onclick="lancerDepot()">Déposer via FedaPay</button>
+                </div>
+            </div>
         </div>
+
+        <!-- Plans d'Investissement -->
+        <div class="card">
+            <h3>Plans d'Investissement Disponibles</h3>
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <h4>Mini</h4>
+                    <p><strong>2 000 FCFA</strong></p>
+                    <p>+2.5% / jour</p>
+                    <button class="btn-primary" onclick="investir(2000)">Investir</button>
+                </div>
+                <div class="plan-card">
+                    <h4>Bronze</h4>
+                    <p><strong>5 000 FCFA</strong></p>
+                    <p>+3% / jour</p>
+                    <button class="btn-primary" onclick="investir(5000)">Investir</button>
+                </div>
+                <div class="plan-card">
+                    <h4>Argent</h4>
+                    <p><strong>20 000 FCFA</strong></p>
+                    <p>+4% / jour</p>
+                    <button class="btn-primary" onclick="investir(20000)">Investir</button>
+                </div>
+                <div class="plan-card">
+                    <h4>Or</h4>
+                    <p><strong>50 000 FCFA</strong></p>
+                    <p>+5% / jour</p>
+                    <button class="btn-primary" onclick="investir(50000)">Investir</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Retrait -->
+        <div class="card">
+            <h3>Effectuer un Retrait</h3>
+            <input type="number" id="montant-retrait" placeholder="Montant en FCFA">
+            <input type="tel" id="numero-retrait" placeholder="Numéro de téléphone pour recevoir les fonds">
+            <button class="btn-danger" onclick="demanderRetrait()">Demander le Retrait</button>
+            <p style="font-size: 13px; color: #64748b; margin-top: 10px; text-align: center;">
+                Le retrait sera soumis à l'administration pour validation.
+            </p>
+        </div>
+
     </div>
+
 </div>
 
 <script>
-    // Clé FedaPay Live (assure-toi que ton compte est activé sur FedaPay pour l'utiliser en prod)
+    // Simulation du solde utilisateur (0 par défaut)
+    let soldeActuel = 0;
+    let soldeMasque = false;
     const FEDAPAY_PUBLIC_KEY = 'pk_live_x0OH8aT0wJfax7jLeLzJtQly';
 
-    function ouvrirPaiement(montant, description) {
-        if (!montant || montant < 100) {
-            alert("Veuillez entrer un montant valide (minimum 100 FCFA).");
+    function afficherPage(pageId) {
+        document.getElementById('page-connexion').classList.add('hidden');
+        document.getElementById('page-inscription').classList.add('hidden');
+        document.getElementById('page-dashboard').classList.add('hidden');
+        document.getElementById(pageId).classList.remove('hidden');
+    }
+
+    function connecter() {
+        // Validation simple de connexion
+        const email = document.getElementById('login-email').value;
+        if(!email) { alert("Veuillez entrer votre email"); return; }
+        afficherPage('page-dashboard');
+    }
+
+    function inscrire() {
+        const email = document.getElementById('reg-email').value;
+        const tel = document.getElementById('reg-tel').value;
+        if(!email || !tel) { alert("Veuillez remplir tous les champs"); return; }
+        alert("Inscription réussie ! Bienvenue.");
+        afficherPage('page-dashboard');
+    }
+
+    function deconnecter() {
+        afficherPage('page-connexion');
+    }
+
+    function masquerSolde() {
+        soldeMasque = !soldeMasque;
+        const texte = document.getElementById('texte-solde');
+        if(soldeMasque) {
+            texte.innerText = "••••••";
+        } else {
+            texte.innerText = soldeActuel + " FCFA";
+        }
+    }
+
+    function lancerDepot() {
+        const montant = document.getElementById('montant-depot').value;
+        if (!montant || montant <= 0) {
+            alert("Veuillez entrer un montant valide.");
             return;
         }
         try {
@@ -103,32 +176,40 @@
                 public_key: FEDAPAY_PUBLIC_KEY,
                 transaction: {
                     amount: parseInt(montant, 10),
-                    description: description
+                    description: "Recharge de solde InvestCI"
                 }
             });
             widget.open();
         } catch (e) {
-            alert("Erreur d'ouverture du widget : " + e.message);
+            alert("Erreur FedaPay : " + e.message);
         }
-    }
-
-    function lancerDepot() {
-        const montant = document.getElementById('montant-depot').value;
-        ouvrirPaiement(montant, "Recharge de solde - InvestCI");
     }
 
     function investir(montant) {
-        ouvrirPaiement(montant, "Investissement Plan - InvestCI");
+        if(soldeActuel < montant) {
+            alert("Solde insuffisant pour ce plan ! Veuillez faire un dépôt.");
+            return;
+        }
+        soldeActuel -= montant;
+        document.getElementById('texte-solde').innerText = soldeMasque ? "••••••" : soldeActuel + " FCFA";
+        alert("Investissement de " + montant + " FCFA validé avec succès !");
     }
 
     function demanderRetrait() {
-        const montant = document.getElementById('montant-retrait').value;
+        const montant = parseInt(document.getElementById('montant-retrait').value, 10);
         const numero = document.getElementById('numero-retrait').value;
-        if (!montant || !numero) {
+
+        if(!montant || !numero) {
             alert("Veuillez remplir tous les champs du retrait.");
             return;
         }
-        alert("Demande de retrait de " + montant + " FCFA enregistrée pour le numéro " + numero + ".");
+
+        if(montant > soldeActuel) {
+            alert("Erreur : Le montant du retrait ne peut pas être supérieur à votre solde actuel (" + soldeActuel + " FCFA).");
+            return;
+        }
+
+        alert("Demande de retrait de " + montant + " FCFA envoyée à l'administrateur avec succès.");
         document.getElementById('montant-retrait').value = '';
         document.getElementById('numero-retrait').value = '';
     }
