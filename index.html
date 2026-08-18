@@ -166,29 +166,14 @@
     <section class="card">
       <h3>Investir</h3>
       <p>Choisissez un investissement à explorer.</p>
-<input type="number" id="montant" min="50" placeholder="Montant (min 50 FCFA)" style="padding: 10px; margin-top: 10px; width: 100%;">
-<button type="button" id="pay-btn" style="margin-top: 10px; padding: 10px 20px;">Investir</button>
 
-<script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
-<script>
-  document.getElementById('pay-btn').addEventListener('click', function(e) {
-    e.preventDefault();
-    const montant = parseInt(document.getElementById('montant').value, 10);
-
-    if (!montant || montant < 50) {
-      alert("Le montant minimum de dépôt est de 50 FCFA.");
-      return;
-    }
-
-    let widget = FedaPay.init({
-      public_key: 'pk_live_x0OH8aT0wJfax7jLeLzJtQly',
-      transaction: { amount: montant, description: 'Investissement' }
-    });
-    widget.open();
-  });
-</script>
+      <button onclick="alert('Mode démo : aucune transaction réelle.')">
+        Investir
+      </button>
     </section>
 
+    <div class="demo">
+      ⚠️ MODE DÉMO — Aucun argent réel n'est utilisé.
     </div>
 
   </main>
