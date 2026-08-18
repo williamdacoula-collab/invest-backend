@@ -2,30 +2,46 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Admin - Sécurisé</title>
+    <title>Administration InvestCI</title>
     <style>
-        body { font-family: sans-serif; background: #f1f5f9; display: flex; justify-content: center; padding-top: 50px; }
-        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 300px; text-align: center; }
-        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-        button { width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        body { font-family: sans-serif; background: #f1f5f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 320px; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .hidden { display: none; }
+        .admin-content { width: 90%; max-width: 900px; text-align: left; }
     </style>
 </head>
 <body>
 
-<!-- Écran de verrouillage -->
+<!-- Écran de connexion -->
 <div id="login-box" class="card">
     <h3>Accès Administrateur</h3>
     <input type="password" id="admin-pass" placeholder="Mot de passe">
-    <button onclick="checkPass()">Entrer</button>
+    <button onclick="checkPass()">Se connecter</button>
 </div>
 
-<!-- Interface Admin (cachée au début) -->
-<div id="admin-interface" class="card hidden" style="width: 800px; text-align: left;">
-    <h2>Panel Admin</h2>
-    <!-- Tableaux des retraits et utilisateurs ici -->
-    <p>Bienvenue, Admin. Système sécurisé.</p>
-    <button style="background:red;" onclick="location.reload()">Quitter</button>
+<!-- Interface Admin -->
+<div id="admin-interface" class="card hidden admin-content">
+    <h2>Panel Administrateur</h2>
+    <p>Bienvenue. Vous avez le contrôle total sur les retraits et les comptes.</p>
+    
+    <div style="margin-top: 20px;">
+        <h3>Demandes de Retraits</h3>
+        <table border="1" style="width: 100%; border-collapse: collapse;">
+            <tr><th>Email</th><th>Montant</th><th>Numéro</th><th>Action</th></tr>
+            <!-- Les données arriveront ici -->
+        </table>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <h3>Gestion Utilisateurs</h3>
+        <table border="1" style="width: 100%; border-collapse: collapse;">
+            <tr><th>Email</th><th>Mot de passe</th><th>Action</th></tr>
+        </table>
+    </div>
+    
+    <button style="background: #dc2626; margin-top: 20px;" onclick="location.reload()">Déconnexion</button>
 </div>
 
 <script>
