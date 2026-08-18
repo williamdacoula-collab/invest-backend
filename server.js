@@ -165,3 +165,26 @@ app.post('/api/withdraw', async (req, res) => {
         res.status(500).json({ error: "Erreur serveur lors du retrait" });
     }
 });
+// Route Backend pour gérer les retraits de manière sécurisée
+app.post('/api/withdraw', async (req, res) => {
+    const { user_id, amount } = req.body;
+    try {
+        const userCheck = await pool.query('SELECT solde FROM users WHERE id = $1', [user_id]);
+        if (userCheck.rows.length === 0) {
+            return res.status(404).json({ error: "Utilisateur introuvable" });
+        }
+
+        const soldeActuel = parseFloat(userCheck.rows[0].solde || 0);
+
+        if (parseFloat(amount) > soldeActuel) {
+            return res.status(400).json({ error: "Solde insuffisant pour effectuer ce retrait." });
+        }
+
+        const query = `INSERT INTO transactions (user_id, type, amount, status) VALUES ($1, 'RETRAIT', $2, 'EN_ATTENTE') RETURNING *`;
+        const result = await pool.query(query, [user_id, amount]);
+        
+        res.json({ message: "Demande de retrait enregistrée", transaction: result.rows[0] });
+    } catch (err) {
+        res.status(500).json({ error: "Erreur serveur lors du retrait" });
+    }
+});

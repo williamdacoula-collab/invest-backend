@@ -1,326 +1,109 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InvestApp</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body { background-color: #f8f9fa; }
-    .card-custom { border-radius: 12px; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-    .btn-custom { border-radius: 8px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvestApp</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f9; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        input, button { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #007bff; color: white; border: none; font-weight: bold; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .btn-danger { background: #dc3545; }
+        .btn-danger:hover { background: #c82333; }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-  <div class="container py-5">
-    <!-- Section Authentification -->
-    <div id="auth-section" class="row justify-content-center">
-      <div class="col-md-5 mb-4">
-        <div class="card card-custom p-4">
-          <h4 class="text-center mb-3">Connexion</h4>
-          <form id="login-form">
-            <div class="mb-3">
-              <label class="form-label">Email</label>
-              <input type="email" id="login-email" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Mot de passe</label>
-              <input type="password" id="login-password" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary w-100 btn-custom">Se connecter</button>
-          </form>
-        </div>
-      </div>
-
-      <div class="col-md-5 mb-4">
-        <div class="card card-custom p-4">
-          <h4 class="text-center mb-3">Inscription</h4>
-          <form id="register-form">
-            <div class="mb-3">
-              <label class="form-label">Nom complet</label>
-              <input type="text" id="reg-nom" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Email</label>
-              <input type="email" id="reg-email" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Téléphone</label>
-              <input type="tel" id="reg-phone" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Mot de passe</label>
-              <input type="password" id="reg-password" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-success w-100 btn-custom">S'inscrire</button>
-          </form>
-        </div>
-      </div>
+    <!-- 1. FORMULAIRE DE CONNEXION / INSCRIPTION -->
+    <div id="auth-container" class="container">
+        <h2>Connexion</h2>
+        <input type="email" id="login-email" placeholder="Email">
+        <input type="password" id="login-password" placeholder="Mot de passe">
+        <button onclick="seConnecter()">Se connecter</button>
     </div>
 
-    <!-- Section Tableau de bord -->
-    <div id="dashboard-section" style="display: none;">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Tableau de bord</h2>
-        <button onclick="logout()" class="btn btn-outline-danger btn-custom">Déconnexion</button>
-      </div>
+    <!-- 2. TABLEAU DE BORD (Masqué par défaut) -->
+    <div id="app-dashboard" class="container" style="display: none;">
+        <h2>Tableau de Bord</h2>
+        <p><strong>Solde Actuel :</strong> <span id="solde-actuel">0</span> FCFA</p>
+        <button onclick="deconnexion()" class="btn-danger">Se déconnecter</button>
 
-      <div class="row mb-4">
-        <div class="col-md-6 mb-3">
-          <div class="card card-custom p-4 text-center bg-white">
-            <h5>Solde Actuel</h5>
-            <h2 id="user-balance" class="text-primary fw-bold">0 FCFA</h2>
-          </div>
-        </div>
-        <div class="col-md-6 mb-3">
-          <div class="card card-custom p-4 bg-white">
-            <h5>Recharger le solde (Dépôt)</h5>
-            <div class="input-group mt-3">
-              <input type="number" id="deposit-amount" class="form-control" placeholder="Montant en FCFA (min 50)" min="50">
-              <button onclick="depositMoney()" class="btn btn-success">Déposer</button>
-            </div>
-          </div>
-        </div>
-      </div>
+        <hr style="margin: 20px 0;">
 
-      <h3 class="mb-3">Plans d'Investissement Disponibles</h3>
-      <div class="row mb-5">
-        <div class="col-md-3 mb-3">
-          <div class="card card-custom p-3 text-center">
-            <h5 class="text-info">Plan Mini</h5>
-            <p class="fs-4 fw-bold">1 000 FCFA</p>
-            <p class="text-muted">+2.0% / jour (30 jours)</p>
-            <button onclick="invest('Plan Mini', 1000, 2.0, 30)" class="btn btn-outline-info btn-custom">Investir</button>
-          </div>
-        </div>
-        <div class="col-md-3 mb-3">
-          <div class="card card-custom p-3 text-center">
-            <h5 class="text-primary">Plan Bronze</h5>
-            <p class="fs-4 fw-bold">5 000 FCFA</p>
-            <p class="text-muted">+2.5% / jour (30 jours)</p>
-            <button onclick="invest('Plan Bronze', 5000, 2.5, 30)" class="btn btn-outline-primary btn-custom">Investir</button>
-          </div>
-        </div>
-        <div class="col-md-3 mb-3">
-          <div class="card card-custom p-3 text-center">
-            <h5 class="text-warning">Plan Argent</h5>
-            <p class="fs-4 fw-bold">20 000 FCFA</p>
-            <p class="text-muted">+3.5% / jour (30 jours)</p>
-            <button onclick="invest('Plan Argent', 20000, 3.5, 30)" class="btn btn-outline-warning btn-custom">Investir</button>
-          </div>
-        </div>
-        <div class="col-md-3 mb-3">
-          <div class="card card-custom p-3 text-center">
-            <h5 class="text-danger">Plan Or</h5>
-            <p class="fs-4 fw-bold">50 000 FCFA</p>
-            <p class="text-muted">+5.0% / jour (30 jours)</p>
-            <button onclick="invest('Plan Or', 50000, 5.0, 30)" class="btn btn-outline-danger btn-custom">Investir</button>
-          </div>
-        </div>
-      </div>
-
-      <h3 class="mb-3">Mes Investissements</h3>
-      <div class="card card-custom p-3 bg-white">
-        <table class="table align-middle">
-          <thead>
-            <tr>
-              <th>Plan</th>
-              <th>Montant</th>
-              <th>Rendement</th>
-              <th>Statut</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody id="investments-list"></tbody>
-        </table>
-      </div>
+        <h3>Effectuer un Retrait</h3>
+        <input type="number" id="withdraw-amount" placeholder="Montant en FCFA">
+        <button onclick="demanderRetrait()" class="btn-danger">Demander le retrait</button>
     </div>
-  </div>
 
-  <script>
-    let currentUser = null;
+    <script>
+        // Gestion de la connexion (À adapter selon ta route de login existante)
+        function seConnecter() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
 
-    document.getElementById("register-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const nom = document.getElementById("reg-nom").value;
-      const email = document.getElementById("reg-email").value;
-      const telephone = document.getElementById("reg-phone").value;
-      const password = document.getElementById("reg-password").value;
+            fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.user) {
+                    // Sauvegarde de l'ID et du solde
+                    localStorage.setItem('user_id', data.user.id);
+                    localStorage.setItem('user_solde', data.user.solde || 0);
 
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nom, email, telephone, password })
-      });
-      const data = await res.json();
-      if (res.ok) alert("Compte créé avec succès ! Connectez-vous.");
-      else alert(data.error);
-    });
-
-    document.getElementById("login-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = document.getElementById("login-email").value;
-      const password = document.getElementById("login-password").value;
-
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        currentUser = data.user;
-        document.getElementById("auth-section").style.display = "none";
-        document.getElementById("dashboard-section").style.display = "block";
-        loadDashboardData();
-      } else {
-        alert(data.error);
-      }
-    });
-
-    async function loadDashboardData() {
-      if (!currentUser) return;
-      const resBal = await fetch(`/api/wallet/${currentUser.id}`);
-      const dataBal = await resBal.json();
-      if (resBal.ok) {
-        document.getElementById("user-balance").innerText = `${parseFloat(dataBal.balance).toLocaleString()} FCFA`;
-      }
-
-      const resInv = await fetch(`/api/investment/user/${currentUser.id}`);
-      const dataInv = await resInv.json();
-      if (resInv.ok) {
-        const tbody = document.getElementById("investments-list");
-        tbody.innerHTML = "";
-        if (dataInv.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">Aucun investissement actif</td></tr>';
-        } else {
-          dataInv.forEach(inv => {
-            tbody.innerHTML += `<tr>
-              <td class="fw-bold">${inv.plan_name}</td>
-              <td>${parseFloat(inv.amount).toLocaleString()} FCFA</td>
-              <td class="text-success">+${inv.daily_return_rate}%</td>
-              <td><span class="badge bg-success">${inv.status}</span></td>
-              <td>${new Date(inv.created_at).toLocaleDateString()}</td>
-            </tr>`;
-          });
+                    // Affichage du tableau de bord et masquage de la connexion
+                    document.getElementById('auth-container').style.display = 'none';
+                    document.getElementById('app-dashboard').style.display = 'block';
+                    document.getElementById('solde-actuel').innerText = data.user.solde || 0;
+                } else {
+                    alert(data.error || "Erreur de connexion");
+                }
+            })
+            .catch(err => alert("Erreur réseau"));
         }
-      }
-    }
 
-    async function depositMoney() {
-      const amount = parseFloat(document.getElementById("deposit-amount").value);
-      if (!amount || amount < 50) return alert("Saisissez un montant valide (minimum 50 FCFA)");
-
-      const res = await fetch("/api/wallet/deposit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: currentUser.id, amount })
-      });
-      
-      const data = await res.json();
-      
-      if (res.ok) {
-        if (data.url) {
-          window.location.href = data.url;
-        } else {
-          alert("Dépôt réussi !");
-          document.getElementById("deposit-amount").value = "";
-          loadDashboardData();
+        function deconnexion() {
+            localStorage.clear();
+            location.reload();
         }
-      } else {
-        alert(data.error);
-      }
-    }
 
-    async function invest(planName, amount, dailyReturnRate, durationDays) {
-      if (!currentUser) return;
-      const res = await fetch("/api/investment/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: currentUser.id, planName, amount, dailyReturnRate, durationDays })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        alert(`Souscription au ${planName} validée !`);
-        loadDashboardData();
-      } else {
-        alert(data.error);
-      }
-    }
+        // Fonction de Retrait sécurisée
+        function demanderRetrait() {
+            const amount = parseFloat(document.getElementById('withdraw-amount').value);
+            const userId = localStorage.getItem('user_id');
+            const soldeActuel = parseFloat(localStorage.getItem('user_solde')) || 0;
 
-    function logout() {
-      currentUser = null;
-      document.getElementById("auth-section").style.display = "flex";
-      document.getElementById("dashboard-section").style.display = "none";
-    }
-  </script>
+            if (!amount || amount <= 0) {
+                alert("Veuillez entrer un montant valide.");
+                return;
+            }
+
+            if (amount > soldeActuel) {
+                alert("Solde insuffisant ! Vous possédez " + soldeActuel + " FCFA.");
+                return;
+            }
+
+            fetch('/api/withdraw', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: userId, amount: amount })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert("Demande de retrait envoyée avec succès !");
+                    document.getElementById('withdraw-amount').value = '';
+                }
+            })
+            .catch(err => alert("Erreur lors de la requête."));
+        }
+    </script>
 </body>
-<div style="text-align: center; margin: 25px auto; padding: 15px; max-width: 400px; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
-    <p style="font-size: 14px; font-weight: bold; color: #444; margin-bottom: 12px;">Moyens de paiement acceptés :</p>
-    <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Wave_logo.svg" alt="Wave" style="height: 45px; width: auto; object-fit: contain;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MTN_Logo.svg" alt="MTN" style="height: 45px; width: auto; object-fit: contain;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Moov_Africa_logo.svg" alt="Moov" style="height: 45px; width: auto; object-fit: contain;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Orange_logo.svg" alt="Orange" style="height: 45px; width: auto; object-fit: contain;">
-    </div>
-<div id="bloc-retrait" style="display: none;">
-<Bloc de Retrait -->
-<div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-top: 20px;">
-    <h3 style="margin-top: 0; color: #333; font-size: 18px;">Effectuer un Retrait</h3>
-    <div style="display: flex; gap: 10px;">
-        <input type="number" id="withdraw-amount" placeholder="Montant en FCFA" style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
-        <button onclick="demanderRetrait()" style="background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer;">Retirer</button>
-    </div>
-</div>
-
-<script>
-    function demanderRetrait() {
-        const amount = document.getElementById('withdraw-amount').value;
-        const userId = localStorage.getItem('user_id') || 1; // Récupère l'ID de l'utilisateur connecté
-
-        if (!amount || amount <= 0) {
-            alert("Veuillez entrer un montant valide pour le retrait.");
-            return;
-        }
-
-        fetch('/api/withdraw', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ user_id: userId, amount: amount })
-        })
-        .then(res => res.json())
-        .then(data => {
-            alert("Demande de retrait envoyée avec succès ! Elle est en attente de validation.");
-            document.getElementById('withdraw-amount').value = '';
-        })
-        .catch(err => {
-            alert("Erreur lors de la demande de retrait.");
-        });
-    }
-</script>
-app.post('/api/withdraw', async (req, res) => {
-    const { user_id, amount } = req.body;
-    try {
-        // 1. Vérifier le solde de l'utilisateur dans la base de données
-        const userCheck = await pool.query('SELECT solde FROM users WHERE id = $1', [user_id]);
-        if (userCheck.rows.length === 0) {
-            return res.status(404).json({ error: "Utilisateur introuvable" });
-        }
-
-        const soldeActuel = parseFloat(userCheck.rows[0].solde || 0);
-
-        // 2. Bloquer si le solde est inférieur au montant demandé
-        if (parseFloat(amount) > soldeActuel) {
-            return res.status(400).json({ error: "Solde insuffisant pour effectuer ce retrait." });
-        }
-
-        // 3. Enregistrer le retrait si tout est bon
-        const query = `INSERT INTO transactions (user_id, type, amount, status) VALUES ($1, 'RETRAIT', $2, 'EN_ATTENTE') RETURNING *`;
-        const result = await pool.query(query, [user_id, amount]);
-        
-        res.json({ message: "Demande de retrait enregistrée", transaction: result.rows[0] });
-    } catch (err) {
-        res.status(500).json({ error: "Erreur serveur lors du retrait" });
-    }
-});
+</html>
