@@ -1,0 +1,32 @@
+0 verbose cli /usr/bin/node /usr/bin/npm
+1 info using npm@10.8.2
+2 info using node@v20.20.2
+3 silly config load:file:/usr/lib/node_modules/npm/npmrc
+4 silly config load:file:/home/williamdacoula/mon-site/invest-backend/.npmrc
+5 silly config load:file:/home/williamdacoula/.npmrc
+6 silly config load:file:/usr/etc/npmrc
+7 verbose title npm run dev
+8 verbose argv "run" "dev"
+9 verbose logfile logs-max:10 dir:/home/williamdacoula/.npm/_logs/2026-08-16T14_09_44_221Z-
+10 verbose logfile /home/williamdacoula/.npm/_logs/2026-08-16T14_09_44_221Z-debug-0.log
+11 silly logfile done cleaning log files
+12 verbose stack JSONParseError: Invalid package.json: JSONParseError: Unexpected non-whitespace character after JSON at position 9 while parsing near "\"scripts\": {\n    \"start\": \"no..."
+12 verbose stack     at parse (/usr/lib/node_modules/npm/node_modules/@npmcli/package-json/lib/read-package.js:19:21)
+12 verbose stack     at PackageJson.fromJSON (/usr/lib/node_modules/npm/node_modules/@npmcli/package-json/lib/index.js:161:22)
+12 verbose stack     at PackageJson.load (/usr/lib/node_modules/npm/node_modules/@npmcli/package-json/lib/index.js:156:17)
+12 verbose stack     at async PackageJson.normalize (/usr/lib/node_modules/npm/node_modules/@npmcli/package-json/lib/index.js:116:5)
+12 verbose stack     at async #run (/usr/lib/node_modules/npm/lib/commands/run-script.js:85:13)
+12 verbose stack     at async RunScript.exec (/usr/lib/node_modules/npm/lib/commands/run-script.js:39:7)
+12 verbose stack     at async Npm.exec (/usr/lib/node_modules/npm/lib/npm.js:207:9)
+12 verbose stack     at async module.exports (/usr/lib/node_modules/npm/lib/cli/entry.js:74:5)
+13 error code EJSONPARSE
+14 error JSON.parse Invalid package.json: JSONParseError: Unexpected non-whitespace character after JSON at position 9 while parsing near "\"scripts\": {\n    \"start\": \"no..."
+15 error JSON.parse Failed to parse JSON data.
+15 error JSON.parse Note: package.json must be actual JSON, not just JavaScript.
+16 verbose cwd /home/williamdacoula/mon-site/invest-backend
+17 verbose os Linux 6.6.119-09283-g9c138e0af8c3
+18 verbose node v20.20.2
+19 verbose npm  v10.8.2
+20 verbose exit 1
+21 verbose code 1
+22 error A complete log of this run can be found in: /home/williamdacoula/.npm/_logs/2026-08-16T14_09_44_221Z-debug-0.log

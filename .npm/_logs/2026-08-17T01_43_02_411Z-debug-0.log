@@ -1,0 +1,416 @@
+0 verbose cli /usr/bin/node /usr/lib/node_modules/npm/bin/npm-cli.js
+1 info using npm@10.8.2
+2 info using node@v20.20.2
+3 silly config load:file:/usr/lib/node_modules/npm/npmrc
+4 silly config load:file:/home/williamdacoula/mon-site/invest-backend/.npmrc
+5 silly config load:file:/home/williamdacoula/.npmrc
+6 silly config load:file:/usr/etc/npmrc
+7 verbose title npm exec localtunnel --port 8000
+8 verbose argv "exec" "--" "localtunnel" "--port" "8000"
+9 verbose logfile logs-max:10 dir:/home/williamdacoula/.npm/_logs/2026-08-17T01_43_02_411Z-
+10 verbose logfile /home/williamdacoula/.npm/_logs/2026-08-17T01_43_02_411Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
+13 http fetch GET 200 https://registry.npmjs.org/localtunnel 1484ms (cache miss)
+14 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
+15 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
+16 silly idealTree buildDeps
+17 silly fetch manifest localtunnel@2.0.2
+18 silly packumentCache full:https://registry.npmjs.org/localtunnel cache-miss
+19 http fetch GET 200 https://registry.npmjs.org/localtunnel 403ms (cache miss)
+20 silly packumentCache full:https://registry.npmjs.org/localtunnel set size:undefined disposed:false
+21 silly placeDep ROOT localtunnel@2.0.2 OK for:  want: 2.0.2
+22 silly fetch manifest axios@0.21.4
+23 silly packumentCache full:https://registry.npmjs.org/axios cache-miss
+24 silly fetch manifest debug@4.3.2
+25 silly packumentCache full:https://registry.npmjs.org/debug cache-miss
+26 silly fetch manifest openurl@1.1.1
+27 silly packumentCache full:https://registry.npmjs.org/openurl cache-miss
+28 http fetch GET 200 https://registry.npmjs.org/openurl 402ms (cache miss)
+29 silly packumentCache full:https://registry.npmjs.org/openurl set size:undefined disposed:false
+30 silly fetch manifest yargs@17.1.1
+31 silly packumentCache full:https://registry.npmjs.org/yargs cache-miss
+32 http fetch GET 200 https://registry.npmjs.org/debug 920ms (cache revalidated)
+33 silly packumentCache full:https://registry.npmjs.org/debug set size:195840 disposed:false
+34 http fetch GET 200 https://registry.npmjs.org/axios 931ms (cache revalidated)
+35 silly packumentCache full:https://registry.npmjs.org/axios set size:850874 disposed:false
+36 http fetch GET 200 https://registry.npmjs.org/yargs 708ms (cache miss)
+37 silly packumentCache full:https://registry.npmjs.org/yargs set size:undefined disposed:false
+38 silly placeDep ROOT axios@0.21.4 OK for: localtunnel@2.0.2 want: 0.21.4
+39 silly placeDep ROOT debug@4.3.2 OK for: localtunnel@2.0.2 want: 4.3.2
+40 silly placeDep ROOT openurl@1.1.1 OK for: localtunnel@2.0.2 want: 1.1.1
+41 silly placeDep ROOT yargs@17.1.1 OK for: localtunnel@2.0.2 want: 17.1.1
+42 silly fetch manifest follow-redirects@^1.14.0
+43 silly packumentCache full:https://registry.npmjs.org/follow-redirects cache-miss
+44 silly fetch manifest ms@2.1.2
+45 silly packumentCache full:https://registry.npmjs.org/ms cache-miss
+46 silly fetch manifest y18n@^5.0.5
+47 silly packumentCache full:https://registry.npmjs.org/y18n cache-miss
+48 http fetch GET 200 https://registry.npmjs.org/ms 185ms (cache revalidated)
+49 silly packumentCache full:https://registry.npmjs.org/ms set size:92208 disposed:false
+50 silly fetch manifest cliui@^7.0.2
+51 silly packumentCache full:https://registry.npmjs.org/cliui cache-miss
+52 http fetch GET 200 https://registry.npmjs.org/follow-redirects 191ms (cache revalidated)
+53 silly packumentCache full:https://registry.npmjs.org/follow-redirects set size:188945 disposed:false
+54 silly fetch manifest escalade@^3.1.1
+55 silly packumentCache full:https://registry.npmjs.org/escalade cache-miss
+56 http fetch GET 200 https://registry.npmjs.org/y18n 206ms (cache miss)
+57 silly packumentCache full:https://registry.npmjs.org/y18n set size:undefined disposed:false
+58 silly fetch manifest string-width@^4.2.0
+59 silly packumentCache full:https://registry.npmjs.org/string-width cache-miss
+60 http fetch GET 200 https://registry.npmjs.org/cliui 226ms (cache miss)
+61 silly packumentCache full:https://registry.npmjs.org/cliui set size:undefined disposed:false
+62 silly fetch manifest yargs-parser@^20.2.2
+63 silly packumentCache full:https://registry.npmjs.org/yargs-parser cache-miss
+64 http fetch GET 200 https://registry.npmjs.org/escalade 226ms (cache miss)
+65 silly packumentCache full:https://registry.npmjs.org/escalade set size:undefined disposed:false
+66 silly fetch manifest get-caller-file@^2.0.5
+67 silly packumentCache full:https://registry.npmjs.org/get-caller-file cache-miss
+68 http fetch GET 200 https://registry.npmjs.org/string-width 223ms (cache miss)
+69 silly packumentCache full:https://registry.npmjs.org/string-width set size:undefined disposed:false
+70 silly fetch manifest require-directory@^2.1.1
+71 silly packumentCache full:https://registry.npmjs.org/require-directory cache-miss
+72 http fetch GET 200 https://registry.npmjs.org/get-caller-file 288ms (cache miss)
+73 silly packumentCache full:https://registry.npmjs.org/get-caller-file set size:undefined disposed:false
+74 http fetch GET 200 https://registry.npmjs.org/require-directory 279ms (cache miss)
+75 silly packumentCache full:https://registry.npmjs.org/require-directory set size:undefined disposed:false
+76 http fetch GET 200 https://registry.npmjs.org/yargs-parser 306ms (cache miss)
+77 silly packumentCache full:https://registry.npmjs.org/yargs-parser set size:undefined disposed:false
+78 silly placeDep ROOT follow-redirects@1.16.0 OK for: axios@0.21.4 want: ^1.14.0
+79 silly placeDep ROOT ms@2.1.2 OK for: debug@4.3.2 want: 2.1.2
+80 silly placeDep ROOT cliui@7.0.4 OK for: yargs@17.1.1 want: ^7.0.2
+81 silly placeDep ROOT escalade@3.2.0 OK for: yargs@17.1.1 want: ^3.1.1
+82 silly placeDep ROOT get-caller-file@2.0.5 OK for: yargs@17.1.1 want: ^2.0.5
+83 silly placeDep ROOT require-directory@2.1.1 OK for: yargs@17.1.1 want: ^2.1.1
+84 silly placeDep ROOT string-width@4.2.3 OK for: yargs@17.1.1 want: ^4.2.0
+85 silly placeDep ROOT y18n@5.0.8 OK for: yargs@17.1.1 want: ^5.0.5
+86 silly placeDep ROOT yargs-parser@20.2.9 OK for: yargs@17.1.1 want: ^20.2.2
+87 silly fetch manifest wrap-ansi@^7.0.0
+88 silly packumentCache full:https://registry.npmjs.org/wrap-ansi cache-miss
+89 silly fetch manifest strip-ansi@^6.0.0
+90 silly packumentCache full:https://registry.npmjs.org/strip-ansi cache-miss
+91 silly fetch manifest strip-ansi@^6.0.1
+92 silly packumentCache full:https://registry.npmjs.org/strip-ansi cache-miss
+93 http fetch GET 200 https://registry.npmjs.org/strip-ansi 248ms (cache miss)
+94 silly packumentCache full:https://registry.npmjs.org/strip-ansi set size:undefined disposed:false
+95 silly fetch manifest emoji-regex@^8.0.0
+96 silly packumentCache full:https://registry.npmjs.org/emoji-regex cache-miss
+97 http fetch GET 200 https://registry.npmjs.org/wrap-ansi 254ms (cache miss)
+98 silly packumentCache full:https://registry.npmjs.org/wrap-ansi set size:undefined disposed:false
+99 silly fetch manifest is-fullwidth-code-point@^3.0.0
+100 silly packumentCache full:https://registry.npmjs.org/is-fullwidth-code-point cache-miss
+101 http fetch GET 200 https://registry.npmjs.org/strip-ansi 255ms (cache miss)
+102 silly packumentCache full:https://registry.npmjs.org/strip-ansi set size:undefined disposed:false
+103 http fetch GET 200 https://registry.npmjs.org/is-fullwidth-code-point 179ms (cache miss)
+104 silly packumentCache full:https://registry.npmjs.org/is-fullwidth-code-point set size:undefined disposed:false
+105 http fetch GET 200 https://registry.npmjs.org/emoji-regex 277ms (cache miss)
+106 silly packumentCache full:https://registry.npmjs.org/emoji-regex set size:undefined disposed:false
+107 silly placeDep ROOT strip-ansi@6.0.1 OK for: cliui@7.0.4 want: ^6.0.0
+108 silly placeDep ROOT wrap-ansi@7.0.0 OK for: cliui@7.0.4 want: ^7.0.0
+109 silly fetch manifest ansi-regex@^5.0.1
+110 silly packumentCache full:https://registry.npmjs.org/ansi-regex cache-miss
+111 silly fetch manifest ansi-styles@^4.0.0
+112 silly packumentCache full:https://registry.npmjs.org/ansi-styles cache-miss
+113 http fetch GET 200 https://registry.npmjs.org/ansi-regex 219ms (cache miss)
+114 silly packumentCache full:https://registry.npmjs.org/ansi-regex set size:undefined disposed:false
+115 http fetch GET 200 https://registry.npmjs.org/ansi-styles 300ms (cache miss)
+116 silly packumentCache full:https://registry.npmjs.org/ansi-styles set size:undefined disposed:false
+117 silly placeDep ROOT emoji-regex@8.0.0 OK for: string-width@4.2.3 want: ^8.0.0
+118 silly placeDep ROOT is-fullwidth-code-point@3.0.0 OK for: string-width@4.2.3 want: ^3.0.0
+119 silly placeDep ROOT ansi-regex@5.0.1 OK for: strip-ansi@6.0.1 want: ^5.0.1
+120 silly placeDep ROOT ansi-styles@4.3.0 OK for: wrap-ansi@7.0.0 want: ^4.0.0
+121 silly fetch manifest color-convert@^2.0.1
+122 silly packumentCache full:https://registry.npmjs.org/color-convert cache-miss
+123 http fetch GET 200 https://registry.npmjs.org/color-convert 204ms (cache miss)
+124 silly packumentCache full:https://registry.npmjs.org/color-convert set size:undefined disposed:false
+125 silly placeDep ROOT color-convert@2.0.1 OK for: ansi-styles@4.3.0 want: ^2.0.1
+126 silly fetch manifest color-name@~1.1.4
+127 silly packumentCache full:https://registry.npmjs.org/color-name cache-miss
+128 http fetch GET 200 https://registry.npmjs.org/color-name 193ms (cache miss)
+129 silly packumentCache full:https://registry.npmjs.org/color-name set size:undefined disposed:false
+130 silly placeDep ROOT color-name@1.1.4 OK for: color-convert@2.0.1 want: ~1.1.4
+131 silly reify moves {}
+132 silly audit bulk request {
+132 silly audit   localtunnel: [ '2.0.2' ],
+132 silly audit   axios: [ '0.21.4' ],
+132 silly audit   debug: [ '4.3.2' ],
+132 silly audit   openurl: [ '1.1.1' ],
+132 silly audit   yargs: [ '17.1.1' ],
+132 silly audit   'follow-redirects': [ '1.16.0' ],
+132 silly audit   ms: [ '2.1.2' ],
+132 silly audit   cliui: [ '7.0.4' ],
+132 silly audit   escalade: [ '3.2.0' ],
+132 silly audit   'get-caller-file': [ '2.0.5' ],
+132 silly audit   'require-directory': [ '2.1.1' ],
+132 silly audit   'string-width': [ '4.2.3' ],
+132 silly audit   y18n: [ '5.0.8' ],
+132 silly audit   'yargs-parser': [ '20.2.9' ],
+132 silly audit   'strip-ansi': [ '6.0.1' ],
+132 silly audit   'wrap-ansi': [ '7.0.0' ],
+132 silly audit   'emoji-regex': [ '8.0.0' ],
+132 silly audit   'is-fullwidth-code-point': [ '3.0.0' ],
+132 silly audit   'ansi-regex': [ '5.0.1' ],
+132 silly audit   'ansi-styles': [ '4.3.0' ],
+132 silly audit   'color-convert': [ '2.0.1' ],
+132 silly audit   'color-name': [ '1.1.4' ]
+132 silly audit }
+133 silly tarball no local data for color-convert@https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz. Extracting by manifest.
+134 silly tarball no local data for ansi-styles@https://registry.npmjs.org/ansi-styles/-/ansi-styles-4.3.0.tgz. Extracting by manifest.
+135 silly tarball no local data for ansi-regex@https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.1.tgz. Extracting by manifest.
+136 silly tarball no local data for is-fullwidth-code-point@https://registry.npmjs.org/is-fullwidth-code-point/-/is-fullwidth-code-point-3.0.0.tgz. Extracting by manifest.
+137 silly tarball no local data for emoji-regex@https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz. Extracting by manifest.
+138 silly tarball no local data for strip-ansi@https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz. Extracting by manifest.
+139 silly tarball no local data for yargs-parser@https://registry.npmjs.org/yargs-parser/-/yargs-parser-20.2.9.tgz. Extracting by manifest.
+140 silly tarball no local data for wrap-ansi@https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz. Extracting by manifest.
+141 silly tarball no local data for y18n@https://registry.npmjs.org/y18n/-/y18n-5.0.8.tgz. Extracting by manifest.
+142 silly tarball no local data for string-width@https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz. Extracting by manifest.
+143 silly tarball no local data for require-directory@https://registry.npmjs.org/require-directory/-/require-directory-2.1.1.tgz. Extracting by manifest.
+144 silly tarball no local data for get-caller-file@https://registry.npmjs.org/get-caller-file/-/get-caller-file-2.0.5.tgz. Extracting by manifest.
+145 silly tarball no local data for escalade@https://registry.npmjs.org/escalade/-/escalade-3.2.0.tgz. Extracting by manifest.
+146 silly tarball no local data for cliui@https://registry.npmjs.org/cliui/-/cliui-7.0.4.tgz. Extracting by manifest.
+147 silly tarball no local data for ms@https://registry.npmjs.org/ms/-/ms-2.1.2.tgz. Extracting by manifest.
+148 silly tarball no local data for yargs@https://registry.npmjs.org/yargs/-/yargs-17.1.1.tgz. Extracting by manifest.
+149 silly tarball no local data for openurl@https://registry.npmjs.org/openurl/-/openurl-1.1.1.tgz. Extracting by manifest.
+150 silly tarball no local data for debug@https://registry.npmjs.org/debug/-/debug-4.3.2.tgz. Extracting by manifest.
+151 silly tarball no local data for localtunnel@https://registry.npmjs.org/localtunnel/-/localtunnel-2.0.2.tgz. Extracting by manifest.
+152 silly tarball no local data for axios@https://registry.npmjs.org/axios/-/axios-0.21.4.tgz. Extracting by manifest.
+153 silly tarball no local data for color-name@https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz. Extracting by manifest.
+154 http fetch GET 200 https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz 226ms (cache miss)
+155 http fetch GET 200 https://registry.npmjs.org/ansi-styles/-/ansi-styles-4.3.0.tgz 224ms (cache miss)
+156 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 459ms
+157 silly audit report {
+157 silly audit report   axios: [
+157 silly audit report     {
+157 silly audit report       id: 1111034,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-jr5f-v2jv-69x6',
+157 silly audit report       title: 'axios Requests Vulnerable To Possible SSRF and Credential Leakage via Absolute URL',
+157 silly audit report       severity: 'high',
+157 silly audit report       vulnerable_versions: '<0.30.0',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1119403,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-fvcv-3m26-pcqx',
+157 silly audit report       title: 'Axios has Unrestricted Cloud Metadata Exfiltration via Header Injection Chain',
+157 silly audit report       severity: 'moderate',
+157 silly audit report       vulnerable_versions: '<0.31.0',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1120124,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-62hf-57xw-28j9',
+157 silly audit report       title: 'Axios: unbounded recursion in toFormData causes DoS via deeply nested request data',
+157 silly audit report       severity: 'moderate',
+157 silly audit report       vulnerable_versions: '<=0.31.0',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1120546,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-hfxv-24rg-xrqf',
+157 silly audit report       title: 'Axios: Regular Expression Denial of Service (ReDoS) via Cookie Name Injection',
+157 silly audit report       severity: 'high',
+157 silly audit report       vulnerable_versions: '<=0.31.1',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1120644,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-p92q-9vqr-4j8v',
+157 silly audit report       title: 'Axios: Proxy-Authorization Credential Leak to Origin Server Across HTTP-to-HTTPS Redirect in Axios Node.js HTTP Adapter',
+157 silly audit report       severity: 'high',
+157 silly audit report       vulnerable_versions: '<=0.31.1',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1120646,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-j5f8-grm9-p9fc',
+157 silly audit report       title: 'Axios: Proxy-Authorization header leaks to redirect target when proxy is re-evaluated to direct connection',
+157 silly audit report       severity: 'high',
+157 silly audit report       vulnerable_versions: '<=0.31.1',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1120648,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-3g43-6gmg-66jw',
+157 silly audit report       title: 'axios Vulnerable to Credential Theft and Response Hijacking via Prototype Pollution Gadget in Config Merge',
+157 silly audit report       severity: 'high',
+157 silly audit report       vulnerable_versions: '>=0.19.0 <0.31.1',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1120651,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-898c-q2cr-xwhg',
+157 silly audit report       title: 'axios has DoS & Header Injection via Prototype Pollution Read-Side Gadgets in axios merge functions',
+157 silly audit report       severity: 'moderate',
+157 silly audit report       vulnerable_versions: '<=0.31.1',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1116672,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-3p68-rc4w-qgx5',
+157 silly audit report       title: 'Axios has a NO_PROXY Hostname Normalization Bypass that Leads to SSRF',
+157 silly audit report       severity: 'moderate',
+157 silly audit report       vulnerable_versions: '<0.31.0',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1117573,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-w9j2-pvgh-6h63',
+157 silly audit report       title: 'Axios: Authentication Bypass via Prototype Pollution Gadget in `validateStatus` Merge Strategy',
+157 silly audit report       severity: 'moderate',
+157 silly audit report       vulnerable_versions: '<=0.31.0',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1117575,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-pmwg-cvhr-8vh7',
+157 silly audit report       title: 'Axios: Incomplete Fix for CVE-2025-62718 — NO_PROXY Protection Bypassed via RFC 1122 Loopback Subnet (127.0.0.0/8) in Axios 1.15.0',
+157 silly audit report       severity: 'high',
+157 silly audit report       vulnerable_versions: '<=0.31.0',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1117579,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-xhjh-pmcv-23jw',
+157 silly audit report       title: 'Axios: Null Byte Injection via Reverse-Encoding in AxiosURLSearchParams',
+157 silly audit report       severity: 'low',
+157 silly audit report       vulnerable_versions: '<=0.31.0',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1117582,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-m7pr-hjqh-92cm',
+157 silly audit report       title: 'Axios: no_proxy bypass via IP alias allows SSRF',
+157 silly audit report       severity: 'moderate',
+157 silly audit report       vulnerable_versions: '<=0.31.0',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1117586,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-5c9x-8gcm-mpgx',
+157 silly audit report       title: "Axios' HTTP adapter-streamed uploads bypass maxBodyLength when maxRedirects: 0",
+157 silly audit report       severity: 'moderate',
+157 silly audit report       vulnerable_versions: '<=0.31.0',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1117588,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-vf2m-468p-8v99',
+157 silly audit report       title: 'Axios: HTTP adapter streamed responses bypass maxContentLength',
+157 silly audit report       severity: 'moderate',
+157 silly audit report       vulnerable_versions: '<=0.31.0',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1117590,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-pf86-5x62-jrwf',
+157 silly audit report       title: 'Axios: Prototype Pollution Gadgets - Response Tampering, Data Exfiltration, and Request Hijacking',
+157 silly audit report       severity: 'high',
+157 silly audit report       vulnerable_versions: '<=0.31.0',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1117592,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-6chq-wfr3-2hj9',
+157 silly audit report       title: 'Axios: Header Injection via Prototype Pollution',
+157 silly audit report       severity: 'high',
+157 silly audit report       vulnerable_versions: '<=0.31.0',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1117594,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-xx6v-rp6x-q39c',
+157 silly audit report       title: 'Axios: XSRF Token Cross-Origin Leakage via Prototype Pollution Gadget in `withXSRFToken` Boolean Coercion',
+157 silly audit report       severity: 'moderate',
+157 silly audit report       vulnerable_versions: '<=0.31.0',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1117857,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-43fc-jf86-j433',
+157 silly audit report       title: 'Axios is Vulnerable to Denial of Service via __proto__ Key in mergeConfig',
+157 silly audit report       severity: 'high',
+157 silly audit report       vulnerable_versions: '<=0.30.2',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1123825,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-pjwm-pj3p-43mv',
+157 silly audit report       title: "axios's shouldBypassProxy does not recognize IPv4-mapped IPv6 addresses, allowing NO_PROXY bypass (incomplete fix for CVE-2025-62718)",
+157 silly audit report       severity: 'high',
+157 silly audit report       vulnerable_versions: '<=0.31.1',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1123958,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-mmx7-hfxf-jppx',
+157 silly audit report       title: 'Axios: Prototype pollution gadgets can alter axios request construction',
+157 silly audit report       severity: 'moderate',
+157 silly audit report       vulnerable_versions: '<0.33.0',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1123972,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-7q8q-rj6j-mhjq',
+157 silly audit report       title: 'Axios: Nested axios option objects can consume polluted prototype values',
+157 silly audit report       severity: 'moderate',
+157 silly audit report       vulnerable_versions: '>=0.8.0 <0.33.0',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     },
+157 silly audit report     {
+157 silly audit report       id: 1097679,
+157 silly audit report       url: 'https://github.com/advisories/GHSA-wf5p-g6vw-rhxx',
+157 silly audit report       title: 'Axios Cross-Site Request Forgery Vulnerability',
+157 silly audit report       severity: 'moderate',
+157 silly audit report       vulnerable_versions: '>=0.8.1 <0.28.0',
+157 silly audit report       cwe: [Array],
+157 silly audit report       cvss: [Object]
+157 silly audit report     }
+157 silly audit report   ]
+157 silly audit report }
+158 silly packumentCache corgi:https://registry.npmjs.org/axios cache-miss
+159 http fetch GET 200 https://registry.npmjs.org/ms/-/ms-2.1.2.tgz 499ms (cache miss)
+160 http fetch GET 200 https://registry.npmjs.org/yargs/-/yargs-17.1.1.tgz 534ms (cache miss)
+161 http fetch GET 200 https://registry.npmjs.org/openurl/-/openurl-1.1.1.tgz 542ms (cache miss)
+162 http fetch GET 200 https://registry.npmjs.org/debug/-/debug-4.3.2.tgz 699ms (cache miss)
+163 http fetch GET 200 https://registry.npmjs.org/localtunnel/-/localtunnel-2.0.2.tgz 700ms (cache miss)
+164 http fetch GET 200 https://registry.npmjs.org/escalade/-/escalade-3.2.0.tgz 847ms (cache miss)
+165 http fetch GET 200 https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz 864ms (cache miss)
+166 http fetch GET 200 https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz 857ms (cache miss)
+167 http fetch GET 200 https://registry.npmjs.org/yargs-parser/-/yargs-parser-20.2.9.tgz 874ms (cache miss)
+168 http fetch GET 200 https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz 1126ms (cache miss)
+169 http fetch GET 200 https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz 1117ms (cache miss)
+170 http fetch GET 200 https://registry.npmjs.org/get-caller-file/-/get-caller-file-2.0.5.tgz 1134ms (cache miss)
+171 http fetch GET 200 https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.1.tgz 1156ms (cache miss)
+172 http fetch GET 200 https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz 1153ms (cache miss)
+173 http fetch GET 200 https://registry.npmjs.org/is-fullwidth-code-point/-/is-fullwidth-code-point-3.0.0.tgz 1156ms (cache miss)
+174 http fetch GET 200 https://registry.npmjs.org/require-directory/-/require-directory-2.1.1.tgz 1141ms (cache miss)
+175 http fetch GET 200 https://registry.npmjs.org/y18n/-/y18n-5.0.8.tgz 1144ms (cache miss)
+176 http fetch GET 200 https://registry.npmjs.org/cliui/-/cliui-7.0.4.tgz 1139ms (cache miss)
+177 http fetch GET 200 https://registry.npmjs.org/axios/-/axios-0.21.4.tgz 1134ms (cache miss)
+178 http fetch GET 200 https://registry.npmjs.org/axios 735ms (cache miss)
+179 silly packumentCache corgi:https://registry.npmjs.org/axios set size:undefined disposed:false
+180 silly packumentCache corgi:https://registry.npmjs.org/localtunnel cache-miss
+181 http fetch GET 200 https://registry.npmjs.org/localtunnel 5ms (cache hit)
+182 silly packumentCache corgi:https://registry.npmjs.org/localtunnel set size:25176 disposed:false

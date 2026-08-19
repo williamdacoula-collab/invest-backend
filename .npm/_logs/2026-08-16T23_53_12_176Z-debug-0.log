@@ -1,0 +1,39 @@
+0 verbose cli /usr/bin/node /usr/bin/npm
+1 info using npm@10.8.2
+2 info using node@v20.20.2
+3 silly config load:file:/usr/lib/node_modules/npm/npmrc
+4 silly config load:file:/home/williamdacoula/mon-site/.npmrc
+5 silly config load:file:/home/williamdacoula/.npmrc
+6 silly config load:file:/usr/etc/npmrc
+7 verbose title npm start
+8 verbose argv "start"
+9 verbose logfile logs-max:10 dir:/home/williamdacoula/.npm/_logs/2026-08-16T23_53_12_176Z-
+10 verbose logfile /home/williamdacoula/.npm/_logs/2026-08-16T23_53_12_176Z-debug-0.log
+11 silly logfile done cleaning log files
+12 verbose stack Error: Missing script: "start"
+12 verbose stack
+12 verbose stack Did you mean one of these?
+12 verbose stack   npm star # Mark your favorite packages
+12 verbose stack   npm stars # View packages marked as favorites
+12 verbose stack
+12 verbose stack To see a list of scripts, run:
+12 verbose stack   npm run
+12 verbose stack     at #run (/usr/lib/node_modules/npm/lib/commands/run-script.js:110:13)
+12 verbose stack     at async RunScript.exec (/usr/lib/node_modules/npm/lib/commands/run-script.js:39:7)
+12 verbose stack     at async Npm.exec (/usr/lib/node_modules/npm/lib/npm.js:207:9)
+12 verbose stack     at async module.exports (/usr/lib/node_modules/npm/lib/cli/entry.js:74:5)
+13 error Missing script: "start"
+13 error
+13 error Did you mean one of these?
+13 error   npm star # Mark your favorite packages
+13 error   npm stars # View packages marked as favorites
+13 error
+13 error To see a list of scripts, run:
+13 error   npm run
+14 verbose cwd /home/williamdacoula/mon-site
+15 verbose os Linux 6.6.119-09283-g9c138e0af8c3
+16 verbose node v20.20.2
+17 verbose npm  v10.8.2
+18 verbose exit 1
+19 verbose code 1
+20 error A complete log of this run can be found in: /home/williamdacoula/.npm/_logs/2026-08-16T23_53_12_176Z-debug-0.log

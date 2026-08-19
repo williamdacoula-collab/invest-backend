@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Espace Administrateur - InvestApp</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 30px; }
+    h1, h2 { color: #333; }
+    .card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+    th { background: #2c3e50; color: white; }
+    tr:nth-child(even) { background: #f9f9f9; }
+    .badge { background: #27ae60; color: white; padding: 4px 8px; border-radius: 4px; font-size: 13px; font-weight: bold; }
+    .btn-refresh { background: #3498db; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+
+  <h1>Tableau de bord Administrateur</h1>
+  <button class="btn-refresh" onclick="loadAdminData()">🔄 Actualiser les données</button>
+
+  <!-- Section Utilisateurs -->
+  <div class="card">
+    <h2>Liste des Utilisateurs</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Date d'inscription</th>
+        </tr>
+      </thead>
+      <tbody id="users-table"></tbody>
+    </table>
+  </div>
+
+  <!-- Section Portefeuilles & Solde -->
+  <div class="card">
+    <h2>Solde des Portefeuilles Utilisateurs</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID Wallet</th>
+          <th>Utilisateur</th>
+          <th>Email</th>
+          <th>Solde Actuel</th>
+        </tr>
+      </thead>
+      <tbody id="wallets-table"></tbody>
+    </table>
+  </div>
+
+  <script>
+    async function loadAdminData() {
+      try {
+        // Charger les utilisateurs
+        const usersRes = await fetch('/api/admin/users');
+        const users = await usersRes.json();
+        const usersTable = document.getElementById('users-table');
+
+        if (users.length === 0) {
+          usersTable.innerHTML = '<tr><td colspan="4">Aucun utilisateur trouvé</td></tr>';
+        } else {
+          usersTable.innerHTML = users.map(u => `
+            <tr>
+              <td>#${u.id}</td>
+              <td><b>${u.name || 'N/A'}</b></td>
+              <td>${u.email}</td>
+              <td>${u.created_at ? new Date(u.created_at).toLocaleDateString('fr-FR') : 'N/A'}</td>
+            </tr>
+          `).join('');
+        }
+
+        // Charger les solde/portefeuilles
+        const walletsRes = await fetch('/api/admin/wallets');
+        const wallets = await walletsRes.json();
+        const walletsTable = document.getElementById('wallets-table');
+
+        if (wallets.length === 0) {
+          walletsTable.innerHTML = '<tr><td colspan="4">Aucun portefeuille trouvé</td></tr>';
+        } else {
+          walletsTable.innerHTML = wallets.map(w => `
+            <tr>
+              <td>#${w.id}</td>
+              <td>${w.name || 'N/A'}</td>
+              <td>${w.email}</td>
+              <td><span class="badge">${w.balance} ${w.currency || 'FCFA'}</span></td>
+            </tr>
+          `).join('');
+        }
+      } catch (err) {
+        console.error('Erreur de chargement:', err);
+      }
+    }
+
+    // Charger les données au démarrage
+    loadAdminData();
+  </script>
+</body>
+</html>
