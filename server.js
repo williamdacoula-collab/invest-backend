@@ -58,7 +58,51 @@ app.post('/api/withdraw', async (req, res) => {
     }
 });
 
-// Démarrage du serveur
+// Routes pour le panneau d'administration
+app.get('/api/admin/users', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT id, email, password FROM users');
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).json({ error: "Erreur lors de la récupération des utilisateurs" });
+    }
+});
+
+app.get('/api/admin/withdrawals', async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT t.id, t.amount, t.status, u.email, u.numero 
+            FROM transactions t 
+            JOIN users u ON t.user_id = u.id 
+            WHERE t.type = 'RETRAIT' AND t.status = 'EN_ATTENTE'
+        `);
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).json({ error: "Erreur lors de la récupération des retraits" });
+    }
+});
+
+app.post('/api/admin/ban/:id', async (req, res) => {
+    const userId = req.params.id;
+    try {
+        await pool.query('DELETE FROM users WHERE id = $1', [userId]);
+        res.json({ message: "Utilisateur banni/supprimé avec succès" });
+    } catch (err) {
+        res.status(500).json({ error: "Erreur lors du bannissement" });
+    }
+});
+
+app.post('/api/admin/validate-withdraw/:id', async (req, res) => {
+    const txId = req.params.id;
+    try {
+        await pool.query("UPDATE transactions SET status = 'VALIDE' WHERE id = $1", [txId]);
+        res.json({ message: "Retrait validé avec succès" });
+    } catch (err) {
+        res.status(500).json({ error: "Erreur lors de la validation" });
+    }
+});
+
+// Démarrage du serveur (toujours à la toute fin)
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur le port ${PORT}`);
