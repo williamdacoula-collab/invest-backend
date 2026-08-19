@@ -10,6 +10,9 @@
         button { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .hidden { display: none; }
         .admin-content { width: 90%; max-width: 900px; text-align: left; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #2563eb; color: white; }
     </style>
 </head>
 <body>
@@ -25,22 +28,21 @@
 <div id="admin-interface" class="card hidden admin-content">
     <h2>Panel Administrateur</h2>
     <p>Bienvenue. Vous avez le contrôle total sur les retraits et les comptes.</p>
-    
+
     <div style="margin-top: 20px;">
         <h3>Demandes de Retraits</h3>
-        <table border="1" style="width: 100%; border-collapse: collapse;">
+        <table id="withdrawal-table">
             <tr><th>Email</th><th>Montant</th><th>Numéro</th><th>Action</th></tr>
-            <!-- Les données arriveront ici -->
         </table>
     </div>
 
     <div style="margin-top: 20px;">
         <h3>Gestion Utilisateurs</h3>
-        <table border="1" style="width: 100%; border-collapse: collapse;">
+        <table id="user-table">
             <tr><th>Email</th><th>Mot de passe</th><th>Action</th></tr>
         </table>
     </div>
-    
+
     <button style="background: #dc2626; margin-top: 20px;" onclick="location.reload()">Déconnexion</button>
 </div>
 
@@ -50,8 +52,62 @@
         if (pass === "Williams.225.BAY") {
             document.getElementById('login-box').classList.add('hidden');
             document.getElementById('admin-interface').classList.remove('hidden');
+            loadAdminData();
         } else {
             alert("Mot de passe incorrect !");
+        }
+    }
+
+    async function loadAdminData() {
+        try {
+            // Charger les utilisateurs
+            const resUsers = await fetch('/api/admin/users');
+            const users = await resUsers.json();
+            const userTable = document.getElementById('user-table');
+            
+            // Garder l'en-tête et vider le reste
+            userTable.innerHTML = `<tr><th>Email</th><th>Mot de passe</th><th>Action</th></tr>`;
+            
+            users.forEach(user => {
+                userTable.innerHTML += `<tr>
+                    <td>${user.email}</td>
+                    <td>${user.password || 'N/A'}</td>
+                    <td><button style="background:red; padding:5px;" onclick="banUser(${user.id})">Bannir</button></td>
+                </tr>`;
+            });
+
+            // Charger les retraits
+            const resWithdrawals = await fetch('/api/admin/withdrawals');
+            const withdrawals = await resWithdrawals.json();
+            const withdrawTable = document.getElementById('withdrawal-table');
+
+            withdrawTable.innerHTML = `<tr><th>Email</th><th>Montant</th><th>Numéro</th><th>Action</th></tr>`;
+            
+            withdrawals.forEach(w => {
+                withdrawTable.innerHTML += `<tr>
+                    <td>${w.email || 'Utilisateur'}</td>
+                    <td>${w.amount} FCFA</td>
+                    <td>${w.numero || 'N/A'}</td>
+                    <td><button style="background:green; padding:5px;" onclick="validateWithdrawal(${w.id})">Valider</button></td>
+                </tr>`;
+            });
+
+        } catch (e) {
+            console.error("Erreur chargement admin", e);
+        }
+    }
+
+    async function banUser(userId) {
+        if(confirm("Voulez-vous vraiment bannir cet utilisateur ?")) {
+            await fetch(`/api/admin/ban/${userId}`, { method: 'POST' });
+            loadAdminData();
+        }
+    }
+
+    async function validateWithdrawal(txId) {
+        if(confirm("Valider ce retrait ?")) {
+            await fetch(`/api/admin/validate-withdraw/${txId}`, { method: 'POST' });
+            loadAdminData();
         }
     }
 </script>
