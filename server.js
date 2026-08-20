@@ -62,12 +62,13 @@ app.post('/api/withdraw', async (req, res) => {
 app.get('/api/admin/users', async (req, res) => {
     try {
         const result = await pool.query('SELECT id, email, password FROM users');
+        console.log("UTILISATEURS TROUVÉS EN BASE DE DONNÉES :", result.rows); // <- Ajoute cette ligne ici
         res.json(result.rows);
     } catch (err) {
+        console.error(err);
         res.status(500).json({ error: "Erreur lors de la récupération des utilisateurs" });
     }
 });
-
 app.get('/api/admin/withdrawals', async (req, res) => {
     try {
         const result = await pool.query(`
