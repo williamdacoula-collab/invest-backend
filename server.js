@@ -14,11 +14,23 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
+// Création automatique de la table users au démarrage pour éviter les erreurs
+pool.query(`
+  CREATE TABLE IF NOT EXISTS users (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255),
+      email VARCHAR(255) UNIQUE NOT NULL,
+      telephone VARCHAR(50),
+      password VARCHAR(255) NOT NULL,
+      solde NUMERIC DEFAULT 50000
+  );
+`).catch(err => console.error("Erreur création table :", err));
+
 // Route d'inscription
 app.post('/api/register', async (req, res) => {
   const { name, email, telephone, password } = req.body;
-  if (!name || !email || !telephone || !password) {
-    return res.status(400).json({ message: "Tous les champs sont obligatoires." });
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email et mot de passe obligatoires." });
   }
   try {
     const userCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
@@ -27,7 +39,7 @@ app.post('/api/register', async (req, res) => {
     }
     const newUser = await pool.query(
       'INSERT INTO users (name, email, telephone, password, solde) VALUES ($1, $2, $3, $4, 50000) RETURNING *',
-      [name, email, telephone, password]
+      [name || "Utilisateur", email, telephone || "", password]
     );
     res.status(201).json({ message: "Inscription réussie", user: newUser.rows[0] });
   } catch (err) {
