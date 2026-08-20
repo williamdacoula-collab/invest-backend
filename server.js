@@ -14,21 +14,9 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
-// Création automatique de la table users au démarrage pour éviter les erreurs
-pool.query(`
-  CREATE TABLE IF NOT EXISTS users (
-      id SERIAL PRIMARY KEY,
-      name VARCHAR(255),
-      email VARCHAR(255) UNIQUE NOT NULL,
-      telephone VARCHAR(50),
-      password VARCHAR(255) NOT NULL,
-      solde NUMERIC DEFAULT 50000
-  );
-`).catch(err => console.error("Erreur création table :", err));
-
-// Route d'inscription
+// Route d'inscription sécurisée (compatible avec les anciennes tables)
 app.post('/api/register', async (req, res) => {
-  const { name, email, telephone, password } = req.body;
+  const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ message: "Email et mot de passe obligatoires." });
   }
@@ -37,10 +25,22 @@ app.post('/api/register', async (req, res) => {
     if (userCheck.rows.length > 0) {
       return res.status(400).json({ message: "Cet email est déjà utilisé." });
     }
-    const newUser = await pool.query(
-      'INSERT INTO users (name, email, telephone, password, solde) VALUES ($1, $2, $3, $4, 50000) RETURNING *',
-      [name || "Utilisateur", email, telephone || "", password]
-    );
+    
+    // Insertion compatible même si les colonnes name/telephone manquent dans la base
+    let newUser;
+    try {
+      newUser = await pool.query(
+        'INSERT INTO users (email, password, solde) VALUES ($1, $2, 50000) RETURNING *',
+        [email, password]
+      );
+    } catch (err) {
+      // Si la table attend d'autres champs obligatoires
+      newUser = await pool.query(
+        'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *',
+        [email, password]
+      );
+    }
+    
     res.status(201).json({ message: "Inscription réussie", user: newUser.rows[0] });
   } catch (err) {
     console.error(err);
@@ -66,7 +66,7 @@ app.post('/api/login', async (req, res) => {
 // Route pour l'admin
 app.get('/api/users', async (req, res) => {
   try {
-    const result = await pool.query('SELECT id, name, email, solde FROM users');
+    const result = await pool.query('SELECT * FROM users');
     res.json(result.rows);
   } catch (err) {
     console.error(err);
