@@ -81,6 +81,9 @@
             <button class="toggle-solde" onclick="masquerSolde()">👁️ Masquer</button>
         </div>
 
+        <!-- Accès Panneau Admin -->
+        <button class="btn-secondary" onclick="ouvrirAdmin()" style="background-color: #475569;">Panel Administrateur</button>
+
         <div class="card" style="margin-top:20px; background:#f8fafc;">
             <h3>Recharger le solde (Dépôt)</h3>
             <input type="number" id="montant-depot" placeholder="Montant en FCFA">
@@ -128,6 +131,29 @@
             <button class="btn-danger" onclick="demanderRetrait()">Demander le Retrait</button>
         </div>
     </div>
+
+    <!-- PANNEAU ADMINISTRATEUR -->
+    <div id="page-admin" class="card hidden">
+        <div class="header-flex">
+            <h2>Panneau Administrateur</h2>
+            <button class="btn-secondary" style="width: auto;" onclick="afficherPage('page-dashboard')">Retour Dashboard</button>
+        </div>
+        
+        <h3>Liste des utilisateurs inscrits</h3>
+        <button class="btn-primary" onclick="chargerUtilisateurs()" style="margin-bottom: 15px; width: auto;">Actualiser la liste</button>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Solde (FCFA)</th>
+                </tr>
+            </thead>
+            <tbody id="liste-utilisateurs">
+                <!-- Les utilisateurs de la base de données s'afficheront ici -->
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
@@ -140,6 +166,7 @@
         document.getElementById('page-connexion').classList.add('hidden');
         document.getElementById('page-inscription').classList.add('hidden');
         document.getElementById('page-dashboard').classList.add('hidden');
+        document.getElementById('page-admin').classList.add('hidden');
         document.getElementById(pageId).classList.remove('hidden');
     }
 
@@ -204,6 +231,33 @@
         const numero = document.getElementById('numero-retrait').value;
         if(!montant || !numero) { alert("Remplissez tous les champs."); return; }
         alert("Demande de retrait de " + montant + " FCFA envoyée.");
+    }
+
+    async function ouvrirAdmin() {
+        afficherPage('page-admin');
+        chargerUtilisateurs();
+    }
+
+    async function chargerUtilisateurs() {
+        try {
+            const res = await fetch(`${API_URL}/api/users`);
+            if (res.ok) {
+                const users = await res.json();
+                const tbody = document.getElementById('liste-utilisateurs');
+                tbody.innerHTML = '';
+                
+                users.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>${user.email}</td><td>${(user.solde || 0).toLocaleString()} FCFA</td>`;
+                    tbody.appendChild(row);
+                });
+            } else {
+                alert("Erreur: Impossible de récupérer les utilisateurs (Vérifie que la route /api/users existe sur ton backend).");
+            }
+        } catch (error) {
+            console.error("Erreur:", error);
+            alert("Erreur de connexion au serveur pour charger l'admin.");
+        }
     }
 </script>
 </body>
