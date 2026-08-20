@@ -2,10 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
 require('dotenv').config();
+const path = require('path');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static(__dirname));
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -15,22 +17,18 @@ const pool = new Pool({
 // Route d'inscription
 app.post('/api/register', async (req, res) => {
   const { name, email, telephone, password } = req.body;
-  
   if (!name || !email || !telephone || !password) {
     return res.status(400).json({ message: "Tous les champs sont obligatoires." });
   }
-
   try {
     const userCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     if (userCheck.rows.length > 0) {
       return res.status(400).json({ message: "Cet email est déjà utilisé." });
     }
-
     const newUser = await pool.query(
       'INSERT INTO users (name, email, telephone, password, solde) VALUES ($1, $2, $3, $4, 50000) RETURNING *',
       [name, email, telephone, password]
     );
-    
     res.status(201).json({ message: "Inscription réussie", user: newUser.rows[0] });
   } catch (err) {
     console.error(err);
@@ -53,7 +51,7 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// Route pour l'admin (liste des utilisateurs)
+// Route pour l'admin
 app.get('/api/users', async (req, res) => {
   try {
     const result = await pool.query('SELECT id, name, email, solde FROM users');
