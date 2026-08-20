@@ -107,3 +107,25 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur le port ${PORT}`);
 });
+// Route pour l'inscription d'un nouvel utilisateur
+app.post('/api/register', async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        // Vérifier si l'utilisateur existe déjà
+        const userCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        if (userCheck.rows.length > 0) {
+            return res.status(400).json({ error: "Cet email est déjà utilisé." });
+        }
+
+        // Insérer le nouvel utilisateur dans la base de données
+        const newUser = await pool.query(
+            'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id, email',
+            [email, password]
+        );
+
+        res.status(201).json({ message: "Inscription réussie !", user: newUser.rows[0] });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Erreur serveur lors de l'inscription." });
+    }
+});
