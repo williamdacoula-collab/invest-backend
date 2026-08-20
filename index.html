@@ -1,18 +1,35 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<style>body { background: #f8fafc url("https://upload.wikimedia.org/wikipedia/commons/4/45/Wave_logo.svg") no-repeat fixed 95% 5% / 200px; }</style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InvestCI</title>
     <script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f1f5f9; 
+            background-image: url("https://upload.wikimedia.org/wikipedia/commons/4/45/Wave_logo.svg"); 
+            background-repeat: no-repeat;
+            background-position: 95% 5%;
+            background-size: 250px;
+            margin: 0; 
+            padding: 20px; 
+            color: #333; 
+        }
         .container { max-width: 900px; margin: auto; }
-        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .card { 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 24px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+            border-radius: 12px; 
+            border-top: 4px solid #2563eb;
+        }
         .hidden { display: none; }
         input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; }
-        button { width: 100%; border: none; padding: 12px; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        button { width: 100%; border: none; padding: 12px; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.3s; }
+        button:hover { opacity: 0.9; }
         .btn-primary { background: #2563eb; }
         .btn-success { background: #10b981; }
         .btn-danger { background: #dc2626; }
@@ -22,42 +39,18 @@
         /* Dashboard styles */
         .header-flex { display: flex; justify-content: space-between; align-items: center; }
         .solde-box { font-size: 28px; font-weight: bold; color: #2563eb; margin: 10px 0; display: flex; align-items: center; gap: 10px; }
-        .toggle-solde { background: none; border: none; color: #64748b; cursor: pointer; font-size: 14px; width: auto; padding: 5px 10px; }
+        .toggle-solde { background: none; border: none; color: #64748b; cursor: pointer; font-size: 14px; width: auto; }
         .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 15px; }
-        .plan-card { border: 1px solid #e2e8f0; border-radius: 10px; padding: 15px; text-align: center; }
-        .plan-card h4 { margin: 5px 0; color: #1e293b; }
-        .plan-card p { color: #64748b; font-size: 13px; }
+        .plan-card { border: 1px solid #e2e8f0; background: #f8fafc; border-radius: 10px; padding: 15px; text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+        th { background: #f1f5f9; color: #1e293b; }
     </style>
-<style>body { background: #f1f5f9 url("https://upload.wikimedia.org/wikipedia/commons/4/45/Wave_logo.svg") no-repeat fixed 95% 5% / 250px !important; }</style>
-<style>
-  body {
-    background-image: url("https://upload.wikimedia.org/wikipedia/commons/4/45/Wave_logo.svg");
-    background-repeat: no-repeat;
-    background-position: 95% 5%;
-    background-size: 300px;
-    background-attachment: fixed;
-    background-color: #f8fafc !important;
-  }
-</style>
-
-<style>
-  body {
-    background-image: url("https://upload.wikimedia.org/wikipedia/commons/4/45/Wave_logo.svg");
-    background-repeat: no-repeat;
-    background-position: 95% 5%;
-    background-size: 300px;
-    background-attachment: fixed;
-    background-color: #f8fafc !important;
-  }
-</style>
 </head>
-
-
 <body>
 
 <div class="container">
-
-    <!-- 1. PAGE DE CONNEXION -->
+    <!-- PAGE DE CONNEXION -->
     <div id="page-connexion" class="card">
         <h2>Connexion à InvestCI</h2>
         <input type="email" id="login-email" placeholder="Adresse Email">
@@ -66,7 +59,7 @@
         <span class="link-text" onclick="afficherPage('page-inscription')">Pas encore de compte ? S'inscrire</span>
     </div>
 
-    <!-- 2. PAGE D'INSCRIPTION -->
+    <!-- PAGE D'INSCRIPTION -->
     <div id="page-inscription" class="card hidden">
         <h2>Inscription</h2>
         <input type="email" id="reg-email" placeholder="Adresse Email">
@@ -76,83 +69,72 @@
         <span class="link-text" onclick="afficherPage('page-connexion')">Déjà un compte ? Se connecter</span>
     </div>
 
-    <!-- 3. TABLEAU DE BORD (INVESTISSEMENTS, DÉPÔT, RETRAIT) -->
-    <div id="page-dashboard" class="hidden">
+    <!-- TABLEAU DE BORD -->
+    <div id="page-dashboard" class="card hidden">
+        <div class="header-flex">
+            <h2>Tableau de bord</h2>
+            <button class="btn-secondary" style="width: auto;" onclick="location.reload()">Déconnexion</button>
+        </div>
         
-        <!-- En-tête & Solde & Dépôt -->
-        <div class="card">
-            <div class="header-flex">
-                <h2>Tableau de bord</h2>
-                <button class="btn-secondary" style="width: auto; padding: 8px 16px;" onclick="deconnecter()">Déconnexion</button>
+        <div class="solde-box">
+            <span id="texte-solde">50 000 FCFA</span>
+            <button class="toggle-solde" onclick="masquerSolde()">👁️ Masquer</button>
+        </div>
+
+        <div class="card" style="margin-top:20px; background:#f8fafc;">
+            <h3>Recharger le solde (Dépôt)</h3>
+            <input type="number" id="montant-depot" placeholder="Montant en FCFA">
+            <button class="btn-success" onclick="lancerDepot()">Déposer via FedaPay</button>
+        </div>
+
+        <h3>Plans d'Investissement Disponibles</h3>
+        <div class="plans-grid">
+            <div class="plan-card">
+                <h4>Mini</h4>
+                <p><strong>2 000 FCFA</strong></p>
+                <button class="btn-primary" onclick="investir(2000)">Investir</button>
             </div>
-            
-            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
-                <div style="flex: 1; min-width: 250px;">
-                    <h3>Solde Actuel</h3>
-                    <div class="solde-box">
-                        <span id="texte-solde">0 FCFA</span>
-                        <button class="toggle-solde" onclick="masquerSolde()">👁️ Masquer</button>
-                    </div>
-                </div>
-                <div style="flex: 1; min-width: 250px;">
-                    <h3>Recharger le solde (Dépôt)</h3>
-                    <input type="number" id="montant-depot" placeholder="Montant en FCFA">
-                    <button class="btn-success" onclick="lancerDepot()">Déposer via FedaPay</button>
-                </div>
+            <div class="plan-card">
+                <h4>Bronze</h4>
+                <p><strong>5 000 FCFA</strong></p>
+                <button class="btn-primary" onclick="investir(5000)">Investir</button>
+            </div>
+            <div class="plan-card">
+                <h4>Argent</h4>
+                <p><strong>50 000 FCFA</strong></p>
+                <button class="btn-primary" onclick="investir(50000)">Investir</button>
             </div>
         </div>
 
-        <!-- Plans d'Investissement -->
-        <div class="card">
-            <h3>Plans d'Investissement Disponibles</h3>
-            <div class="plans-grid">
-                <div class="plan-card">
-                    <h4>Mini</h4>
-                    <p><strong>2 000 FCFA</strong></p>
-                    <p>+2.5% / jour (4 jours) (4 jours)</p>
-                    <button class="btn-primary" onclick="investir(2000)">Investir</button>
-                </div>
-                <div class="plan-card">
-                    <h4>Bronze</h4>
-                    <p><strong>5 000 FCFA</strong></p>
-                    <p>+3% / jour (7 jours) (7 jours)</p>
-                    <button class="btn-primary" onclick="investir(5000)">Investir</button>
-                </div>
-                <div class="plan-card">
-                    <h4>Argent</h4>
-                    <p><strong>20 000 FCFA</strong></p>
-                    <p>+4% / jour (3 jours) (3 jours)</p>
-                    <button class="btn-primary" onclick="investir(20000)">Investir</button>
-                </div>
-                <div class="plan-card">
-                    <h4>Or</h4>
-                    <p><strong>50 000 FCFA</strong></p>
-                    <p>+5% / jour (10 jours) (10 jours)</p>
-                    <button class="btn-primary" onclick="investir(50000)">Investir</button>
-                </div>
-            </div>
+        <div class="card" style="margin-top:20px;">
+            <h3>Mes Investissements</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Montant</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody id="liste-investissements">
+                    <!-- Les investissements s'afficheront ici -->
+                </tbody>
+            </table>
         </div>
 
-        <!-- Section Retrait -->
-        <div class="card">
+        <div class="card" style="margin-top:20px; background:#f8fafc;">
             <h3>Effectuer un Retrait</h3>
             <input type="number" id="montant-retrait" placeholder="Montant en FCFA">
             <input type="tel" id="numero-retrait" placeholder="Numéro de téléphone pour recevoir les fonds">
             <button class="btn-danger" onclick="demanderRetrait()">Demander le Retrait</button>
-            <p style="font-size: 13px; color: #64748b; margin-top: 10px; text-align: center;">
-                Le retrait sera soumis à l'administration pour validation.
-            </p>
         </div>
-
     </div>
-
 </div>
 
 <script>
-    // Simulation du solde utilisateur (0 par défaut)
-    let soldeActuel = 0;
+    const API_URL = 'https://invest-backend-j07u.onrender.com';
+    const FEDAPAY_PUBLIC_KEY = 'pk_live_x00H8aT0wJfax7jLeLzJtQly';
+    let soldeActuel = 50000;
     let soldeMasque = false;
-    const FEDAPAY_PUBLIC_KEY = 'pk_live_x0OH8aT0wJfax7jLeLzJtQly';
 
     function afficherPage(pageId) {
         document.getElementById('page-connexion').classList.add('hidden');
@@ -161,84 +143,68 @@
         document.getElementById(pageId).classList.remove('hidden');
     }
 
-    function connecter() {
-        // Validation simple de connexion
-        const email = document.getElementById('login-email').value;
-        if(!email) { alert("Veuillez entrer votre email"); return; }
-        afficherPage('page-dashboard');
-    }
-
-    function inscrire() {
-        const email = document.getElementById('reg-email').value;
-        const tel = document.getElementById('reg-tel').value;
-        if(!email || !tel) { alert("Veuillez remplir tous les champs"); return; }
-        alert("Inscription réussie ! Bienvenue.");
-        afficherPage('page-dashboard');
-    }
-
-    function deconnecter() {
-        afficherPage('page-connexion');
-    }
-
     function masquerSolde() {
         soldeMasque = !soldeMasque;
-        const texte = document.getElementById('texte-solde');
-        if(soldeMasque) {
-            texte.innerText = "••••••";
-        } else {
-            texte.innerText = soldeActuel + " FCFA";
-        }
+        document.getElementById('texte-solde').innerText = soldeMasque ? "......" : soldeActuel.toLocaleString() + " FCFA";
     }
 
-    function lancerDepot() {
-        const montant = document.getElementById('montant-depot').value;
-        if (!montant || montant <= 0) {
-            alert("Veuillez entrer un montant valide.");
-            return;
-        }
-        try {
-            let widget = FedaPay.init({
-                public_key: FEDAPAY_PUBLIC_KEY,
-                transaction: {
-                    amount: parseInt(montant, 10),
-                    description: "Recharge de solde InvestCI"
-                }
-            });
-            widget.open();
-        } catch (e) {
-            alert("Erreur FedaPay : " + e.message);
-        }
+    async function inscrire() {
+        const email = document.getElementById('reg-email').value;
+        const password = document.getElementById('reg-password').value;
+        const res = await fetch(`${API_URL}/api/register`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({email, password})
+        });
+        if (res.ok) { alert("Inscription réussie !"); afficherPage('page-connexion'); }
+        else alert("Erreur lors de l'inscription.");
+    }
+
+    async function connecter() {
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        const res = await fetch(`${API_URL}/api/login`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({email, password})
+        });
+        if (res.ok) {
+            const data = await res.json();
+            soldeActuel = data.user.solde || 50000;
+            document.getElementById('texte-solde').innerText = soldeActuel.toLocaleString() + " FCFA";
+            afficherPage('page-dashboard');
+        } else alert("Email ou mot de passe incorrect.");
     }
 
     function investir(montant) {
-        if(soldeActuel < montant) {
-            alert("Solde insuffisant pour ce plan ! Veuillez faire un dépôt.");
-            return;
+        if(montant > soldeActuel) { 
+            alert("Solde insuffisant pour ce plan !"); 
+            return; 
         }
+        
         soldeActuel -= montant;
-        document.getElementById('texte-solde').innerText = soldeMasque ? "••••••" : soldeActuel + " FCFA";
+        document.getElementById('texte-solde').innerText = soldeActuel.toLocaleString() + " FCFA";
+        
+        const tbody = document.getElementById('liste-investissements');
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${montant.toLocaleString()} FCFA</td><td>En cours</td>`;
+        tbody.appendChild(row);
+        
         alert("Investissement de " + montant + " FCFA validé avec succès !");
+    }
+
+    function lancerDepot() {
+        const montant = parseInt(document.getElementById('montant-depot').value, 10);
+        if(!montant || montant <= 0) { alert("Veuillez entrer un montant valide."); return; }
+        FedaPay.init({ public_key: FEDAPAY_PUBLIC_KEY, transaction: { amount: montant, description: "Recharge de solde" } }).open();
     }
 
     function demanderRetrait() {
         const montant = parseInt(document.getElementById('montant-retrait').value, 10);
         const numero = document.getElementById('numero-retrait').value;
-
-        if(!montant || !numero) {
-            alert("Veuillez remplir tous les champs du retrait.");
-            return;
-        }
-
-        if(montant > soldeActuel) {
-            alert("Erreur : Le montant du retrait ne peut pas être supérieur à votre solde actuel (" + soldeActuel + " FCFA).");
-            return;
-        }
-
-        alert("Demande de retrait de " + montant + " FCFA envoyée à l'administrateur avec succès.");
-        document.getElementById('montant-retrait').value = '';
-        document.getElementById('numero-retrait').value = '';
+        if(!montant || !numero) { alert("Remplissez tous les champs."); return; }
+        alert("Demande de retrait de " + montant + " FCFA envoyée.");
     }
 </script>
-
 </body>
 </html>
